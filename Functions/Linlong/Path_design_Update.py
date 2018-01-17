@@ -52,19 +52,19 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
         for j in range(col_num):
             index = i * col_num + j
             if i - 1 >= 0 and Data[height,i - 1, j] < threshold:
-                cost = 2 + tune_para * Data[height,i - 1, j] ./ 15 * 2
+                cost = 2 + tune_para * Data[height,i - 1, j] * 1.0 / 15 * 2
                 index_next = (i - 1) * col_num + j
                 graph.add_edge(index, index_next, {'cost': cost})
             if i + 1 < row_num and Data[height, i + 1, j] < threshold:
-                cost = 2 + tune_para * Data[height,i + 1, j] ./ 15 * 2
+                cost = 2 + tune_para * Data[height,i + 1, j] * 1.0 / 15 * 2
                 index_next = (i + 1) * col_num + j
                 graph.add_edge(index, index_next, {'cost': cost})
             if j - 1 >= 0 and Data[height, i, j - 1] < threshold:
-                cost = 2 + tune_para * Data[height, i, j - 1] ./ 15 * 2
+                cost = 2 + tune_para * Data[height, i, j - 1] * 1.0 / 15 * 2
                 index_next = i * col_num + (j - 1)
                 graph.add_edge(index, index_next, {'cost': cost})
             if j + 1 < col_num and Data[height, i, j + 1] < threshold:
-                cost = 2 + tune_para * Data[height, i, j + 1] ./ 15 * 2
+                cost = 2 + tune_para * Data[height, i, j + 1] * 1.0 / 15 * 2
                 index_next = i * col_num + (j + 1)
                 graph.add_edge(index, index_next, {'cost': cost})
     cost_func_1 = lambda u, v, e, prev_e: e['cost']
