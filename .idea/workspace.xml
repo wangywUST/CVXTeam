@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="155dcaf6-dcf5-414a-a879-a4b17f484832" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/20180117_Yiwei_Module2.py" afterPath="$PROJECT_DIR$/20180117_Yiwei_Module2.py" />
-    </list>
+    <list default="true" id="155dcaf6-dcf5-414a-a879-a4b17f484832" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +18,11 @@
         <entry file="file://$PROJECT_DIR$/20180117_Linlong_Module2_Test4PathAlgorithm.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="297">
-              <caret line="35" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="87" selection-end-column="42" />
-              <folding />
+              <caret line="35" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="97" selection-end-column="42" />
+              <folding>
+                <marker date="1516178441069" expanded="true" signature="3483:3484" ph="..." />
+                <marker date="1516178441069" expanded="true" signature="3483:3602" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -29,8 +30,8 @@
       <file leaf-file-name="20180117_Yiwei_Module2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/20180117_Yiwei_Module2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="729">
-              <caret line="65" column="58" lean-forward="false" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
+            <state relative-caret-position="405">
+              <caret line="53" column="40" lean-forward="false" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
               <folding>
                 <element signature="e#373#468#0" expanded="false" />
               </folding>
@@ -94,7 +95,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="248" />
     <option name="y" value="377" />
     <option name="width" value="1400" />
@@ -201,7 +202,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.246875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -240,7 +241,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1516178441069" expanded="true" signature="3483:3484" ph="..." />
+            <marker date="1516178441069" expanded="true" signature="3483:3602" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -287,8 +291,11 @@
     <entry file="file://$PROJECT_DIR$/20180117_Linlong_Module2_Test4PathAlgorithm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="87" selection-end-column="42" />
-          <folding />
+          <caret line="35" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="97" selection-end-column="42" />
+          <folding>
+            <marker date="1516178441069" expanded="true" signature="3483:3484" ph="..." />
+            <marker date="1516178441069" expanded="true" signature="3483:3602" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -318,8 +325,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/20180117_Yiwei_Module2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="729">
-          <caret line="65" column="58" lean-forward="false" selection-start-line="65" selection-start-column="58" selection-end-line="65" selection-end-column="58" />
+        <state relative-caret-position="405">
+          <caret line="53" column="40" lean-forward="false" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
           <folding>
             <element signature="e#373#468#0" expanded="false" />
           </folding>
