@@ -23,13 +23,13 @@ def Path_generator(windGraph, xCity_begin, yCity_begin, xCity_end, yCity_end, th
     except:
         Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
         
-    end_pos = Pathinfo[-1]
-    end_x, end_y = index_2_xy(end_pos, Data.shape[2])
-    if end_x != xCity_end or end_y != yCity_end:
-        if len(Pathinfo) <= 540:
-            Pathinfo = []
-        else:
-            Pathinfo = Remedy_4_false_end(Data, Pathinfo, star_point, end_point)
+#    end_pos = Pathinfo[-1]
+#    end_x, end_y = index_2_xy(end_pos, Data.shape[2])
+#    if end_x != xCity_end or end_y != yCity_end:
+#        if len(Pathinfo) <= 540:
+#            Pathinfo = []
+#        else:
+#            Pathinfo = Remedy_4_false_end(Data, Pathinfo, star_point, end_point)
      
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     return Pathinfo
