@@ -82,7 +82,7 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height):
                 Height_pos = z_id
         if Stop:
             end_point_replace = end_point
-            return PathInfo[0:(Height_pos*30-1)].nodes + Path_design(Data, PathInfo[Height_pos*30-1].nodes, end_point, end_point_replace, Height_pos)
+            return PathInfo[0:Height_pos*30].nodes + Path_design(Data, PathInfo[Height_pos*30-1].nodes, end_point, end_point_replace, Height_pos)
         else:
             return PathInfo.nodes
         
