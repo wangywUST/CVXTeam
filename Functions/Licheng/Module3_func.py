@@ -85,16 +85,23 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
                 Len -= 30
             if(Len > 0):
                 seg += [Len]
-            for j in range(len(seg)-1):  
-                CS = plt.contour(X, Y, windGraph[j,:,:],levels = [15],colors=('k',),linestyles=('-',),linewidths=(1,))
-                CSF = plt.contourf(X, Y, windGraph[j,:,:], 8, alpha=.95, cmap=plt.cm.cool)
-                plt.clabel(CS, fmt = '%2.1d', colors = 'k', fontsize=14) #contour line labels
-                plt.colorbar(CSF, shrink=0.8, extend='both')
+            for j in range(len(seg)):  
+                windGraph1 = windGraph[j, :, :].copy()
+                windGraph1[windGraph[j, :, :] >= 15] = 10
+                windGraph1[windGraph[j, :, :] < 15] = 0
+#                CS = plt.contour(X, Y, windGraph1, levels = [10],colors=('k',),linestyles=('-',),linewidths=(1,))
+
                 plt.scatter(yCity[1:11], xCity[1:11], marker='x', s=50, c = 'gold', zorder=10)
                 plt.scatter(yCity[0], xCity[0], marker='*', s=50, c = 'gold', zorder=10)
-                plt.scatter(pathpiece["y"], pathpiece["x"], marker='x', s=5, c = 'gold', zorder=10)
-                plt.scatter(pathpiece["y"][sum(seg[:j]):sum(seg[:j+1])], pathpiece["x"][sum(seg[:j]):sum(seg[:j+1])], marker='x', s=5, c = 'g', zorder=10)
-                plt.show()
+                plt.scatter(pathpiece["y"], pathpiece["x"], marker='x', s=1, c = 'gold', zorder=10)
+                plt.scatter(pathpiece["y"][sum(seg[:j]):sum(seg[:j+1])], pathpiece["x"][sum(seg[:j]):sum(seg[:j+1])], marker='x', s=1, c = 'g', zorder=10)
+                
+                CSF = plt.contourf(X, Y, windGraph1, 8, alpha=.95, cmap=plt.cm.Greys)
+#                plt.clabel(CS, fmt = '%2.1d', colors = 'k', fontsize=14) #contour line labels
+                plt.colorbar(CSF, shrink=0.8, extend='both')
+                
+                plt.title('Figure/Licheng/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
+                plt.savefig('Figure/Licheng/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.pdf')
                 plt.clf()
 
 
