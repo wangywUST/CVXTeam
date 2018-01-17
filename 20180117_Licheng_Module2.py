@@ -12,6 +12,7 @@ from Path_design import *
 from Path_design_Update import *
 from obtainScore import *
 from Data_convert import *
+from Path_generator import *
 
 trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
@@ -43,7 +44,7 @@ chunksize = xsize * ysize
 block = []
 windGraph = np.zeros((hourNum,xsize,ysize))
 #fullScore = []
-for dayNum in [3]:#range(1, maxDay + 1):
+for dayNum in [1]:#range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -51,16 +52,11 @@ for dayNum in [3]:#range(1, maxDay + 1):
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
 
     star_point = xCity[0] * ysize + yCity[0]
-    for cityNum in [6]:#range(1, maxCity + 1):
-        end_point = xCity[cityNum] * ysize + yCity[cityNum]
-        # original algorithm
-#        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
-        #updated algorithm
+    for cityNum in range(1, maxCity + 1):
         thre_wind = 15
-        Data = Data_convert(windGraph, thre_wind)
+        height = 0
         try:
-            Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
-            Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
+            Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
 #            Score = obtainScore(Pathinfo, windGraph)
             (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
             block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
