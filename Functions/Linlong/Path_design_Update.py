@@ -24,49 +24,54 @@ from algorithm import *
 #from New_end_point_mid import *
 from New_end_point_nearby import *
 
-
-#    star_point = Start_city[0] * col_num + Start_city[1]
-#    end_point = Target_city[0] * col_num + Target_city[1]
-
-def Path_design_Update(Data, star_point, end_point, end_point_replace, height):
+def Path_design_Update(Data, star_point, end_point, end_point_replace, height, threshold):
     high_num = int(Data.shape[0])
     row_num = int(Data.shape[1])
     col_num = int(Data.shape[2])      
     end_x = end_point // col_num
     end_y = end_point % col_num
-    
-#%%   
+    star_x = star_point // col_num
+    star_y = star_point % col_num
+#%% check the feasibility of the end point
     size_init = 5
-    end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size_init) 
+    end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size_init, threshold) 
 #    if Data[height, end_x, end_y] >= 1:
 #        end_point_replace = New_end_point_mid(Data[height,:,:], star_point, end_point, col_num)       
 #    else:
 #        end_point_replace = end_point
-    
-#%%        
+
+#%% check the feasibility of the start point   
+#    star_x = star_point // col_num
+#    star_y = star_point % col_num
+#    if Data[height, star_x, star_y] == 1:
+        
+#%% geenrate the graph   
     graph = Graph()
+    tune_para = 1.0
     for i in range(row_num):
         for j in range(col_num):
             index = i * col_num + j
-#            graph.add_node(index)
-            if i - 1 >= 0 and Data[height,i - 1, j] < 1:
+            if i - 1 >= 0 and Data[height,i - 1, j] < threshold:
+                cost = 2 + tune_para * Data[height,i - 1, j] ./ 15 * 2
                 index_next = (i - 1) * col_num + j
-                graph.add_edge(index, index_next, {'cost': 2})
-            if i + 1 < row_num and Data[height, i + 1, j] < 1:
+                graph.add_edge(index, index_next, {'cost': cost})
+            if i + 1 < row_num and Data[height, i + 1, j] < threshold:
+                cost = 2 + tune_para * Data[height,i + 1, j] ./ 15 * 2
                 index_next = (i + 1) * col_num + j
-                graph.add_edge(index, index_next, {'cost': 2})
-            if j - 1 >= 0 and Data[height, i, j - 1] < 1:
+                graph.add_edge(index, index_next, {'cost': cost})
+            if j - 1 >= 0 and Data[height, i, j - 1] < threshold:
+                cost = 2 + tune_para * Data[height, i, j - 1] ./ 15 * 2
                 index_next = i * col_num + (j - 1)
-                graph.add_edge(index, index_next, {'cost': 2})
-            if j + 1 < col_num and Data[height, i, j + 1] < 1:
+                graph.add_edge(index, index_next, {'cost': cost})
+            if j + 1 < col_num and Data[height, i, j + 1] < threshold:
+                cost = 2 + tune_para * Data[height, i, j + 1] ./ 15 * 2
                 index_next = i * col_num + (j + 1)
-                graph.add_edge(index, index_next, {'cost': 2})
+                graph.add_edge(index, index_next, {'cost': cost})
     cost_func_1 = lambda u, v, e, prev_e: e['cost']
-    heuristic_func_1 = lambda u, v, e, prev_e: e['cost']
+    heuristic_func_1 = lambda u, v, e, prev_e: e['cost']    
     PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
 #%%
     Stop = False
-#    Fail_pos = 0
     Height_pos = 0
     if height == high_num - 1:
         return PathInfo.nodes
@@ -77,7 +82,6 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height):
             y_id = PathInfo[index].nodes % col_num
             if Data[z_id, x_id, y_id] >= 1:
                 Stop = True
-#                Fail_pos = index
                 Height_pos = z_id
         if Stop:
             end_point_replace = end_point
