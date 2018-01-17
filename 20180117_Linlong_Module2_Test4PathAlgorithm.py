@@ -72,27 +72,27 @@ for dayNum in [3]: #range(1, maxDay + 1):
         windGra = df.get_chunk(chunksize)["wind"]
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
 
-    star_point = xCity[0] * ysize + yCity[0]
     for cityNum in [5]: #range(1, maxCity + 1):
-        end_point = xCity[cityNum] * ysize + yCity[cityNum]
-        # original algorithm
-#        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
-        #updated algorithm
         thre_wind = 15
-        Data = Data_convert(windGraph, thre_wind)
-        try:
-            Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
-        except:
-            Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
-            
-        #check whether the end is the desired
-        end_pos = Pathinfo[-1]
-        end_x, end_y = index_2_xy(end_pos, Data.shape[2])
-        if end_x != xCity[cityNum] or end_y != yCity[cityNum]:
-            if len(Pathinfo) <= 540:
-                Pathinfo = []
-            else:
-                Pathinfo = Remedy_4_false_end(Data, Pathinfo, star_point, end_point)
-       
-    Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
+        height = 0
+        Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
+#        # original algorithm
+##        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
+#        #updated algorithm
+#        
+#        try:
+#            Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
+#        except:
+#            Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
+#            
+#        #check whether the end is the desired
+#        end_pos = Pathinfo[-1]
+#        end_x, end_y = index_2_xy(end_pos, Data.shape[2])
+#        if end_x != xCity[cityNum] or end_y != yCity[cityNum]:
+#            if len(Pathinfo) <= 540:
+#                Pathinfo = []
+#            else:
+#                Pathinfo = Remedy_4_false_end(Data, Pathinfo, star_point, end_point)
+#       
+#    Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
