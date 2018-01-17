@@ -14,20 +14,20 @@ from obtainScore import *
 from Data_convert import *
 from Path_generator import *
 
-trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
-trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
-testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
-cityLocFile = "Data\CityData.csv"
-testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
-submitPath = "Data\submitResult.csv"
-
-
-#trainPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTraining_201712.csv"
-#trainTrueFile = "C:\Users\lwuag\Desktop\TianchiData\In_situMeasurementforTraining_201712.csv"
-#testPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTesting_201712.csv"
+#trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
+#trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
+#testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 #cityLocFile = "Data\CityData.csv"
-#testTrueFile = "C:\Users\wangyw\Dropbox\Contest\contest\Data\predict_model_2.csv"
+#testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
 #submitPath = "Data\submitResult.csv"
+
+
+trainPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTraining_201712.csv"
+trainTrueFile = "C:\Users\lwuag\Desktop\TianchiData\In_situMeasurementforTraining_201712.csv"
+testPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTesting_201712.csv"
+cityLocFile = "Data\CityData.csv"
+testTrueFile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Data\predict_model_2.csv"
+submitPath = "Data\submitResult_Linlong.csv"
 
 
 cityLoc = pd.read_csv(cityLocFile)
@@ -44,7 +44,7 @@ chunksize = xsize * ysize
 block = []
 windGraph = np.zeros((hourNum,xsize,ysize))
 #fullScore = []
-for dayNum in [1]:#range(1, maxDay + 1):
+for dayNum in range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
