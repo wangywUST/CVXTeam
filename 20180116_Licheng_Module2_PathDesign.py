@@ -13,8 +13,8 @@ Created on Thu Jan 11 16:21:22 2018
 """
 
 import sys
-sys.path.append("Functions")
-sys.path.append("dijkstar")
+sys.path.append("Functions/Licheng")
+sys.path.append("Functions/Licheng/dijkstar")
 from jumpDays import *
 from givePath import *
 from submitFormat import *
