@@ -40,7 +40,7 @@ testPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTesting_201712
 cityLocFile = "C:\Users\lwuag\Desktop\TianchiData\CityData.csv"
 testTrueFile = "C:\Users\lwuag\Desktop\TianchiData\predict_model_2.csv"
 submitPath = "C:\Users\lwuag\Desktop\TianchiData\submitResult.csv"
-#
+
 #trainPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTraining_201712.csv"
 #trainTrueFile = "C:\Users\lwuag\Desktop\TianchiData\In_situMeasurementforTraining_201712.csv"
 #testPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTesting_201712.csv"
@@ -80,9 +80,19 @@ for dayNum in [3]: #range(1, maxDay + 1):
         #updated algorithm
         thre_wind = 15
         Data = Data_convert(windGraph, thre_wind)
-        Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
-        # some remedies
-        # if end_point is not the true end
-        # if the end 
+        try:
+            Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
+        except:
+            Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
+            
+        #check whether the end is the desired
+        end_pos = Pathinfo[-1]
+        end_x, end_y = index_2_xy(end_pos, Data.shape[2])
+        if end_x != xCity[cityNum] or end_y != yCity[cityNum]:
+            if len(Pathinfo) <= 540:
+                Pathinfo = []
+            else:
+                Pathinfo = Remedy_4_false_end(Data, Pathinfo, star_point, end_point)
+       
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
