@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="155dcaf6-dcf5-414a-a879-a4b17f484832" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="155dcaf6-dcf5-414a-a879-a4b17f484832" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +24,8 @@
       <file leaf-file-name="20180117_Yiwei_Module2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/20180117_Yiwei_Module2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="31" />
+            <state relative-caret-position="378">
+              <caret line="32" column="11" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -69,7 +67,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="248" />
     <option name="y" value="377" />
     <option name="width" value="1400" />
@@ -135,7 +133,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="7" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.246875" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -236,8 +234,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/20180117_Yiwei_Module2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="31" />
+        <state relative-caret-position="378">
+          <caret line="32" column="11" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="11" />
           <folding />
         </state>
       </provider>
