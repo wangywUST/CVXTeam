@@ -52,16 +52,13 @@ for dayNum in [1]: #range(1, maxDay + 1):
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
 
     star_point = xCity[0] * ysize + yCity[0]
-    for cityNum in [2]: #range(1, maxCity + 1):
+    for cityNum in [1]: #range(1, maxCity + 1):
         thre_wind = 15
         height = 0
-        try:
-            Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
+        Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
 #            Score = obtainScore(Pathinfo, windGraph)
-            (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
-            block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
-        except:
-            Pathinfo = [1]
+        (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
+        block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
 #            Score = 1440
 #        print Score
 #        fullScore += [Score]
