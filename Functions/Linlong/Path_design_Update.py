@@ -72,11 +72,14 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
 #    heuristic_func_1 = lambda u, v, e, prev_e: e['cost']    
     cost_func_1 = None
     heuristic_func_1 = None
-    PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
+    try:
+        PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
+    except:
+        PathInfo = []
 #%%
     Stop = False
     Height_pos = 0
-    if height == high_num - 1:
+    if height == high_num - 1 or PathInfo == []:
         return PathInfo.nodes
     else:
         while index in range(0, len(PathInfo.nodes)) and not Stop:
@@ -88,7 +91,7 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
                 Height_pos = z_id
         if Stop:
             end_point_replace = end_point
-            return PathInfo[0:Height_pos*30].nodes + Path_design(Data, PathInfo[Height_pos*30-1].nodes, end_point, end_point_replace, Height_pos)
+            return PathInfo[0:Height_pos*30].nodes + Path_design_Update(Data, PathInfo[Height_pos*30-1].nodes, end_point, end_point_replace, Height_pos)
         else:
             return PathInfo.nodes
         
