@@ -85,7 +85,8 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
                 Len -= 30
             if(Len > 0):
                 seg += [Len]
-            for j in range(len(seg)):  
+            for j in range(min(18,len(seg))):  
+                print(j)
                 windGraph1 = windGraph[j, :, :].copy()
                 windGraph1[windGraph[j, :, :] >= 15] = 10
                 windGraph1[windGraph[j, :, :] < 15] = 0
