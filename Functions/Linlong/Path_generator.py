@@ -17,11 +17,8 @@ def Path_generator(windGraph, xCity_begin, yCity_begin, xCity_end, yCity_end, th
     end_point = xCity_end * ysize + yCity_end
     Data = Data_convert(windGraph, thre_wind, MultiLay=False, Convert = False)
     threshold = 15
-    try:
-#        Pathinfo = Path_design(Data, star_point, end_point, end_point, height)
-        Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, height, threshold)
-    except:
-        Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
+#       Pathinfo = Path_design(Data, star_point, end_point, end_point, height)
+    Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, height, threshold)
         
 #    end_pos = Pathinfo[-1]
 #    end_x, end_y = index_2_xy(end_pos, Data.shape[2])

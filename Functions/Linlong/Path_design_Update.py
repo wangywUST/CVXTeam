@@ -75,7 +75,7 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
     try:
         PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
     except:
-        PathInfo = []
+        PathInfo = Remedy_4_no_way(Data, star_point, end_point)
 #%%
     Stop = False
     Height_pos = 0
