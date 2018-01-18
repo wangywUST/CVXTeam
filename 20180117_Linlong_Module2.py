@@ -26,8 +26,8 @@ trainPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTraining_2017
 trainTrueFile = "C:\Users\lwuag\Desktop\TianchiData\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTesting_201712.csv"
 cityLocFile = "Data\CityData.csv"
-testTrueFile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Data\predict_model_2.csv"
-submitPath = "Data\submitResult_Linlong.csv"
+testTrueFile = "C:\Users\lwuag\Desktop\TianchiData\predict_model_2.csv"
+submitPath = "Data\submitResult_Linlong_20180118.csv"
 
 
 cityLoc = pd.read_csv(cityLocFile)
