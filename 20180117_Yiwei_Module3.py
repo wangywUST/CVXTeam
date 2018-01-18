@@ -11,6 +11,7 @@ import numpy as np
 sys.path.append("Functions/Licheng")
 sys.path.append("Functions/Licheng/dijkstar")
 from Module3_func import *
+import matplotlib.pyplot as plt
 
 
 submitfile = "Data/CompareResults/submitResult_0115.csv"
@@ -18,5 +19,6 @@ weatherfile = "C:\Users\wangyw\Dropbox\Contest\contest\Data\predict_model_2.csv"
 cityLocFile = "Data\CityData.csv"
 
 #Score = obtainScore(submitfile, weatherfile,cityLocFile)
-print obtainScore(submitfile, weatherfile, cityLocFile)
+plt.plot(obtainScore(submitfile, weatherfile, cityLocFile))
+plt.show()
 #plotweather(submitfile, weatherfile,cityLocFile)
