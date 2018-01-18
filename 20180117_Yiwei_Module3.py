@@ -14,11 +14,12 @@ from Module3_func import *
 import matplotlib.pyplot as plt
 
 
-submitfile = "Data/CompareResults/submitResult_0115.csv"
+submitfile = "Data/CompareResults/submitResultBest_0116.csv"
 weatherfile = "C:\Users\wangyw\Dropbox\Contest\contest\Data\predict_model_2.csv"
 cityLocFile = "Data\CityData.csv"
 
 #Score = obtainScore(submitfile, weatherfile,cityLocFile)
 plt.plot(obtainScore(submitfile, weatherfile, cityLocFile))
+print sum(obtainScore(submitfile, weatherfile, cityLocFile))
 plt.show()
 #plotweather(submitfile, weatherfile,cityLocFile)
