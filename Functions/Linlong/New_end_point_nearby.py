@@ -41,6 +41,6 @@ def New_end_point_nearby(data, star_point, end_point, col_num, size, threshold):
                 New_end_point = New_endx * col_num + New_endy
             i = i + 1       
         start_pos = Move.shape[0]
-        size = size + 1
+        size = size * 2
         Move = spiral(size, size)
     return New_end_point
