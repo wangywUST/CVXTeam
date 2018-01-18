@@ -12,12 +12,13 @@ from Path_design import *
 from Path_design_Update import *
 from obtainScore import *
 from Data_convert import *
+from Path_generator import *
 
 trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 cityLocFile = "Data\CityData.csv"
-testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
+testTrueFile = "C:\Users\ywanggp\Dropbox\Contest\contest\Data\predict_model_2.csv"
 submitPath = "Data\submitResult.csv"
 
 
@@ -42,8 +43,9 @@ chunksize = xsize * ysize
 
 block = []
 windGraph = np.zeros((hourNum,xsize,ysize))
-fullScore = []
+#fullScore = []
 for dayNum in range(1, maxDay + 1):
+    print dayNum
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -52,22 +54,19 @@ for dayNum in range(1, maxDay + 1):
 
     star_point = xCity[0] * ysize + yCity[0]
     for cityNum in range(1, maxCity + 1):
-        end_point = xCity[cityNum] * ysize + yCity[cityNum]
-        # original algorithm
-#        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
-        #updated algorithm
+        print cityNum
         thre_wind = 15
-        Data = Data_convert(windGraph, thre_wind)
+        height = 0
         try:
-            Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
-            Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
-            Score = obtainScore(Pathinfo, windGraph)
+            Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)
+#            Score = obtainScore(Pathinfo, windGraph)
             (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
             block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
         except:
-            Score = 1440
-        print Score
-        fullScore += [Score]
+            Pathinfo = []
+#            Score = 1440
+#        print Score
+#        fullScore += [Score]
 
 block = np.asarray(block)
 #%%
