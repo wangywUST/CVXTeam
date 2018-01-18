@@ -29,13 +29,13 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
     pathfile = pd.read_csv(submitfile,header = None, names = ["city","Day","Time","x","y"])
     windGraph = np.zeros((18,xsize,ysize))
     Score = []
-    for dayNum in range(1,maxDay+1):
+    for dayNum in [5]:#range(1,maxDay+1):
         df = pd.read_csv(weatherfile, chunksize = chunksize)
         df = jumpDays(df, dayNum-1, chunksize)
         for _ in range(18):
             windGra = df.get_chunk(chunksize)["wind"]
             windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
-        for city in range(1,maxCity+1):
+        for city in [2]:#range(1,maxCity+1):
             pathpiece = pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["x","y"]].reset_index(drop = True)
             Len = pathpiece.shape[0]
             if(Len == 0):
