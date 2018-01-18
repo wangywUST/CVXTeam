@@ -25,13 +25,14 @@ def spiral(X, Y):
     L = L.reshape((num//2, 2))
     return L
 
-def New_end_point_nearby(data, star_point, end_point, col_num, size, threshold):
+def New_end_point_nearby(data, star_point, end_point, col_num, size_bound, threshold):
     start_x, start_y = index_2_xy(star_point, col_num)
     end_x, end_y = index_2_xy(end_point, col_num)
     Stop = False
+    size = 1
     Move = spiral(size, size)  
     start_pos = 0
-    while not Stop:    
+    while not Stop and size <= size_bound:    
         i = 0
         while i in range(start_pos, int(Move.shape[0])) and not Stop:
             New_endx = end_x + Move[i, 0]
@@ -41,6 +42,6 @@ def New_end_point_nearby(data, star_point, end_point, col_num, size, threshold):
                 New_end_point = New_endx * col_num + New_endy
             i = i + 1       
         start_pos = Move.shape[0]
-        size = size * 2
+        size = size + 1
         Move = spiral(size, size)
     return New_end_point

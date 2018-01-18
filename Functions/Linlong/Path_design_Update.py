@@ -23,6 +23,7 @@ from graph import *
 from algorithm import *
 #from New_end_point_mid import *
 from New_end_point_nearby import *
+from New_start_point_backtracking import *
 
 def Path_design_Update(Data, star_point, end_point, end_point_replace, height, threshold):
     high_num = int(Data.shape[0])
@@ -33,17 +34,21 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
     star_x = star_point // col_num
     star_y = star_point % col_num
 #%% check the feasibility of the end point
-    size_init = 10
-    end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size_init, threshold) 
+    size_bound = 30
+    end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size_bound, threshold) 
 #    if Data[height, end_x, end_y] >= 1:
 #        end_point_replace = New_end_point_mid(Data[height,:,:], star_point, end_point, col_num)       
 #    else:
 #        end_point_replace = end_point
 
 #%% check the feasibility of the start point   
-#    star_x = star_point // col_num
-#    star_y = star_point % col_num
-#    if Data[height, star_x, star_y] == 1:
+#    input: existing path 
+#    output: new start_point
+    
+    star_x = star_point // col_num
+    star_y = star_point % col_num 
+    if Data[height, star_x, star_y] >= threshold and height != 0:
+        star_point = New_start_point_backtracking(Data[height,:,:], PathInfo[], col_num, star_point, threshold, height)
         
 #%% geenrate the graph   
     graph = Graph()
@@ -75,23 +80,69 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
     try:
         PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
     except:
-        PathInfo = Remedy_4_no_way(Data, star_point, end_point)
+        PathInfo = Remedy_4_no_way(Data, star_point, end_point) # stand still
+    
+    PathInfo = PathInfo.nodes    
 #%%
-    Stop = False
-    Height_pos = 0
-    if height == high_num - 1 or PathInfo == []:
-        return PathInfo.nodes
+    if height == high_num - 1:
+        return PathInfo
     else:
-        while index in range(0, len(PathInfo.nodes)) and not Stop:
-            z_id = index // 30
-            x_id = PathInfo[index].nodes // col_num
-            y_id = PathInfo[index].nodes % col_num
-            if Data[z_id, x_id, y_id] >= 1:
-                Stop = True
-                Height_pos = z_id
-        if Stop:
-            end_point_replace = end_point
-            return PathInfo[0:Height_pos*30].nodes + Path_design_Update(Data, PathInfo[Height_pos*30-1].nodes, end_point, end_point_replace, Height_pos)
+        if PathInfo[-1] == end_point:
+            if len(PathInfo) <= 30:
+                return PathInfo
+            else:
+                Stop = False
+                Height_pos = 0
+                while index in range(0, len(PathInfo)) and not Stop:
+                    z_id = index // 30
+                    x_id = PathInfo[index] // col_num
+                    y_id = PathInfo[index] % col_num
+                    if Data[z_id, x_id, y_id] >= threshold:
+                        Stop = True
+                        Height_pos = z_id
+                if Stop:
+                    end_point_replace = end_point
+                    return PathInfo[0:Height_pos*30] + Path_design_Update(Data, PathInfo[Height_pos*30-1], end_point, end_point_replace, Height_pos, threshold)
+                else:
+                    return PathInfo
+        elif PathInfo[-1] == end_point_replace:
+            if len(PathInfo) < 30:
+                return PathInfo + [end_point_replace] * (29 - len(PathInfo)) + Path_design_Update(Data, end_point_replace, end_point, end_point, height + 1, threshold)
+            elif len(PathInfo) == 30:
+                return PathInfo[0:(len(PathInfo)-1)]  + Path_design_Update(Data, end_point_replace, end_point, end_point, height + 1, threshold)
+            else:
+                Stop = False
+                Height_pos = 0
+                while index in range(0, len(PathInfo)) and not Stop:
+                    z_id = index // 30
+                    x_id = PathInfo[index] // col_num
+                    y_id = PathInfo[index] % col_num
+                    if Data[z_id, x_id, y_id] >= threshold:
+                        Stop = True
+                        Height_pos = z_id
+                if Stop:
+                    return PathInfo[0:Height_pos*30] + Path_design_Update(Data, PathInfo[Height_pos*30-1], end_point, end_point, Height_pos, threshold)
+                else:
+                    return PathInfo
         else:
-            return PathInfo.nodes
+            return PathInfo[0:(len(PathInfo)-1)] + Path_design_Update(Data, PathInfo[-1], end_point, end_point, height + 1, threshold)
+        
+#%%
+#    Stop = False
+#    Height_pos = 0
+#    if height == high_num - 1 or PathInfo == []:
+#        return PathInfo.nodes
+#    else:
+#        while index in range(0, len(PathInfo.nodes)) and not Stop:
+#            z_id = index // 30
+#            x_id = PathInfo[index].nodes // col_num
+#            y_id = PathInfo[index].nodes % col_num
+#            if Data[z_id, x_id, y_id] >= 1:
+#                Stop = True
+#                Height_pos = z_id
+#        if Stop:
+#            end_point_replace = end_point
+#            return PathInfo[0:Height_pos*30].nodes + Path_design_Update(Data, PathInfo[Height_pos*30-1].nodes, end_point, end_point_replace, Height_pos, threshold)
+#        else:
+#            return PathInfo.nodes
         
