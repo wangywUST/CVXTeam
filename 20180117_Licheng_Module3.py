@@ -13,7 +13,7 @@ sys.path.append("Functions/Licheng/dijkstar")
 from Module3_func import *
 
 
-submitfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\submitResult.csv"
+submitfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\submitResult_Licheng.csv"
 weatherfile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
 cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
 
