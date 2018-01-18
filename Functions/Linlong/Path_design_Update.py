@@ -47,7 +47,7 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
         
 #%% geenrate the graph   
     graph = Graph()
-    tune_para = 0.5
+    tune_para = 0
     for i in range(row_num):
         for j in range(col_num):
             index = i * col_num + j

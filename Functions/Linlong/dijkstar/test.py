@@ -14,5 +14,5 @@ graph.add_edge(1, 2, {'cost': 1})
 graph.add_edge(2, 3, {'cost': 2})
 graph.add_node(4)
 cost_func = lambda u, v, e, prev_e: e['cost']
-path = find_path(graph, 1, 3, cost_func=cost_func)
+path = find_path(graph, 4, 3, cost_func=cost_func)
 #graph.dump(path)
