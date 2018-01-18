@@ -29,15 +29,18 @@ def New_end_point_nearby(data, star_point, end_point, col_num, size, threshold):
     start_x, start_y = index_2_xy(star_point, col_num)
     end_x, end_y = index_2_xy(end_point, col_num)
     Stop = False
+    Move = spiral(size, size)  
+    start_pos = 0
     while not Stop:    
-        Move = spiral(size, size)
         i = 0
-        while i in range(int(Move.shape[0])) and not Stop:
+        while i in range(start_pos, int(Move.shape[0])) and not Stop:
             New_endx = end_x + Move[i, 0]
             New_endy = end_y + Move[i, 1]
             if data[New_endx, New_endy] < threshold:
                 Stop = True
                 New_end_point = New_endx * col_num + New_endy
-            i = i + 1
+            i = i + 1       
+        start_pos = Move.shape[0]
         size = size + 1
+        Move = spiral(size, size)
     return New_end_point

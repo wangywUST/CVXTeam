@@ -47,10 +47,11 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
         
 #%% geenrate the graph   
     graph = Graph()
-    tune_para = 1.0
+    tune_para = 0.5
     for i in range(row_num):
         for j in range(col_num):
             index = i * col_num + j
+            graph.add_node(index)
             if i - 1 >= 0 and Data[height,i - 1, j] < threshold:
                 cost = 2 + tune_para * Data[height,i - 1, j] * 1.0 / 15 * 2
                 index_next = (i - 1) * col_num + j
@@ -67,8 +68,10 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
                 cost = 2 + tune_para * Data[height, i, j + 1] * 1.0 / 15 * 2
                 index_next = i * col_num + (j + 1)
                 graph.add_edge(index, index_next, {'cost': cost})
-    cost_func_1 = lambda u, v, e, prev_e: e['cost']
-    heuristic_func_1 = lambda u, v, e, prev_e: e['cost']    
+#    cost_func_1 = lambda u, v, e, prev_e: e['cost']
+#    heuristic_func_1 = lambda u, v, e, prev_e: e['cost']    
+    cost_func_1 = None
+    heuristic_func_1 = None
     PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
 #%%
     Stop = False
