@@ -33,7 +33,7 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height, t
     star_x = star_point // col_num
     star_y = star_point % col_num
 #%% check the feasibility of the end point
-    size_init = 5
+    size_init = 10
     end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size_init, threshold) 
 #    if Data[height, end_x, end_y] >= 1:
 #        end_point_replace = New_end_point_mid(Data[height,:,:], star_point, end_point, col_num)       
