@@ -61,7 +61,7 @@ for dayNum in [5]: #range(1, maxDay + 1):
             (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
             block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
         except:
-            Pathinfo = []
+            Pathinfo = [1]
 #            Score = 1440
 #        print Score
 #        fullScore += [Score]

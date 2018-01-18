@@ -13,9 +13,13 @@ sys.path.append("Functions/Licheng/dijkstar")
 from Module3_func import *
 
 
-submitfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\submitResult.csv"
+submitfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\CompareResults\submitResult_0115.csv"
 weatherfile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
 cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
 
+#inputfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\submitResult_Licheng.csv"
+#outputfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\CompareResults\submitResult_0117.csv"
+
 #Score = obtainScore(submitfile, weatherfile,cityLocFile)
 plotweather(submitfile, weatherfile,cityLocFile)
+#cityfilter(inputfile,outputfile)

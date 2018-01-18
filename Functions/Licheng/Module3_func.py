@@ -29,13 +29,13 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
     pathfile = pd.read_csv(submitfile,header = None, names = ["city","Day","Time","x","y"])
     windGraph = np.zeros((18,xsize,ysize))
     Score = []
-    for dayNum in [3]:#range(1,maxDay+1):
+    for dayNum in range(1,maxDay+1):
         df = pd.read_csv(weatherfile, chunksize = chunksize)
         df = jumpDays(df, dayNum-1, chunksize)
         for _ in range(18):
             windGra = df.get_chunk(chunksize)["wind"]
             windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
-        for city in [5]:#range(1,maxCity+1):
+        for city in range(1,maxCity+1):
             pathpiece = pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["x","y"]].reset_index(drop = True)
             Len = pathpiece.shape[0]
             if(Len == 0):
@@ -103,16 +103,14 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
                 plt.title('Figure/Licheng/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
                 plt.savefig('Figure/Licheng/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.pdf')
                 plt.clf()
+        
+def cityfilter(inputfile,outputfile):
+    record = pd.DataFrame(columns = ["city","Day","Time","x","y"])
+    pathfile = pd.read_csv(inputfile,header = None, names = ["city","Day","Time","x","y"])
+    pathpiece1 = pathfile.loc[pathfile["city"] == 2].reset_index(drop = True)
+    pathpiece2 = pathfile.loc[pathfile["city"] == 9].reset_index(drop = True)
+    record = record.append(pathpiece1, ignore_index = True)
+    record = record.append(pathpiece2, ignore_index = True)
+    record.to_csv(outputfile,header=None,index = False)
+    
 
-
-    
-    
-   
-    
-    
-    
-   
-            
-            
-    
-    
