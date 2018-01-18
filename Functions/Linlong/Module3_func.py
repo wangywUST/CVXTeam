@@ -16,8 +16,8 @@
 import pandas as pd
 import sys
 import numpy as np
-sys.path.append("Functions/Licheng")
-sys.path.append("Functions/Licheng/dijkstar")
+sys.path.append("Functions/Linlong")
+sys.path.append("Functions/Linlong/dijkstar")
 from jumpDays import *
 import matplotlib.pyplot as plt
 
@@ -100,8 +100,8 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
 #                plt.clabel(CS, fmt = '%2.1d', colors = 'k', fontsize=14) #contour line labels
                 plt.colorbar(CSF, shrink=0.8, extend='both')
                 
-                plt.title('Figure/Licheng/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
-                plt.savefig('Figure/Licheng/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.pdf')
+                plt.title('Figure/Linlong/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
+                plt.savefig('Figure/Linlong/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.png')
                 plt.clf()
 
 
