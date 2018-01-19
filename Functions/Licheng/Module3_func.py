@@ -35,7 +35,7 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
         for _ in range(18):
             windGra = df.get_chunk(chunksize)["wind"]
             windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
-        for city in range(1,maxCity+1):
+        for city in [10]:#range(1,maxCity+1):
             pathpiece = pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["x","y"]].reset_index(drop = True)
             Len = pathpiece.shape[0]
             if(Len == 0):
@@ -55,7 +55,8 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
                         flag = True
                 if(j == len(seg)-1):
                     if pathpiece["x"][j*30+i]!= xCity[city] or pathpiece["y"][j*30+i] != yCity[city]:
-                        flag = True                  
+                        flag = True   
+            print "==========================="
             Score += [1440 if flag else (pathpiece.shape[0] - 1) * 2]
     return Score  
 

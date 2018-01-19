@@ -24,14 +24,10 @@ from algorithm import *
 #from New_end_point_mid import *
 from New_end_point_nearby import *
 
-def Path_design_Update(Data, star_point, end_point, end_point_replace, height, threshold):
+def Path_design_Update(Data, star_point, end_point, height = 0, threshold = 15):
     high_num = int(Data.shape[0])
     row_num = int(Data.shape[1])
     col_num = int(Data.shape[2])      
-    end_x = end_point // col_num
-    end_y = end_point % col_num
-    star_x = star_point // col_num
-    star_y = star_point % col_num
 #%% check the feasibility of the end point
     size_init = 5
     end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size_init, threshold) 

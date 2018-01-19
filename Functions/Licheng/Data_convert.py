@@ -4,19 +4,15 @@ Created on Tue Jan 16 22:17:13 2018
 
 @author: lwuag
 """
-
+import numpy as np
 def Data_convert(Data, thre_wind, MultiLay=False, Convert = False):  
     if Convert:
-        for k in range(Data.shape[0]):
-            for i in range(Data.shape[1]):
-                for j in range(Data.shape[2]):
-                        Data[k, i, j] = 0 if Data[k, i, j] < thre_wind else 1
+        Data_ = np.zeros(Data.shape)
+        Data_[Data>=thre_wind] = 1
         if MultiLay:
-            for k in range(Data.shape[0]-1):
-                Data[k,:,:] = Data[k, :, :] + Data[k + 1, :, :]
-            for k in range(Data.shape[0]):
-                for i in range(Data.shape[1]):
-                    for j in range(Data.shape[2]):
-                            Data[k, i, j] = 0 if Data[k, i, j] < 1 else 1
-
-    return Data
+            Data_ = Data_[:Data.shape[0]-1,:,:] + Data_[1:,:,:]
+            Data_[Data_>=1] = 1 
+        Data_ = Data_.astype(int)
+    else:
+        Data_ = Data.copy()
+    return Data_
