@@ -69,13 +69,13 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
     x = np.linspace(1, xsize, xsize)
     y = np.linspace(1, ysize, ysize)
     X,Y = np.meshgrid(y, x)
-    for dayNum in [3]:#range(1,maxDay+1):
+    for dayNum in range(1,maxDay+1):
         df = pd.read_csv(weatherfile, chunksize = chunksize)
         df = jumpDays(df, dayNum-1, chunksize)
         for _ in range(18):
             windGra = df.get_chunk(chunksize)["wind"]
             windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
-        for city in [9]:#range(1,maxCity+1):
+        for city in range(1,maxCity+1):
             pathpiece = pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["x","y"]].reset_index(drop = True)
             Len = pathpiece.shape[0]
             if(Len == 0):  continue
