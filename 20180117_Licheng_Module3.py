@@ -22,6 +22,6 @@ cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
 #inputfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\submitResult_Licheng.csv"
 #outputfile = "C:\Users\lzhaoai\Desktop\Tianchi\CVXTeam\Data\CompareResults\submitResult_0117.csv"
 
-Score = obtainScore(submitfile, weatherfile,cityLocFile,threshold = 12)
+Score = obtainScore(submitfile, weatherfile,cityLocFile,threshold = 15)
 #plotweather(submitfile, weatherfile,cityLocFile)
 #cityfilter(inputfile,outputfile)

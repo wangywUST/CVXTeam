@@ -1,18 +1,35 @@
 import sys
-sys.path.append("Functions")
+sys.path.append("Functions\Licheng")
 from weather_predict import *
 import pandas as pd
 import numpy as np
 from sklearn.neural_network import MLPRegressor
+import xgboost as xgb
+import lightgbm as lgb
 
 trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
-TrainData,TrainLabel,TestData,Output = model4(trainPredFile, trainTrueFile, testPredFile)
+
 #outputPath = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_"+str(3)+".csv" 
 #predict = model3(trainPredFile, trainTrueFile, testPredFile)
 #predict.to_csv(outputPath,index = False)
 
+#X_train,y_train = model4(trainPredFile, trainTrueFile, testPredFile)
+
+def my_custom_loss_func(ground_truth, predictions):
+    ground_truth = map(lambda x: 1 if x>=15 else 0, ground_truth)
+    predictions = map(lambda x: 1 if x>=15 else 0, predictions)
+    diff = [ground_truth[i] - predictions[i] for i in range(len(ground_truth))]
+    return reduce(lambda x,y: x+y, map(lambda x: 1 if x!=0 else 0, diff))*1.0/len(ground_truth)
+ground_truth = [2,3,44,6]
+predictions = [5,23,5,7]
+print my_custom_loss_func(ground_truth, predictions)    
+#    diff = np.abs(ground_truth - predictions).max()
+#    return np.log(1 + diff)
+
+#xgbr = xgb.XGBRegressor()
+#print 'Score for XGBoosting :',cross_val_score(xgbr,X_train,y_train,cv=10,scoring='accuracy').mean()
 
 
 
