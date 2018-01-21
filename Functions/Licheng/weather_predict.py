@@ -70,7 +70,7 @@ def model4(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
     df_test = pd.read_csv(testPredFile, chunksize = chunksize)
     df_train_true = pd.read_csv(trainTrueFile, chunksize = chunksize / 10)
 #    predict = pd.DataFrame(columns = ["xid","yid","date_id","hour","wind"])  
-    blksz = 10
+    blksz = 20
     xseg = [blksz]*(xsize/blksz)+[xsize%blksz]
     yseg = [blksz]*(ysize/blksz)+[ysize%blksz]
     for x in range(len(xseg)):
