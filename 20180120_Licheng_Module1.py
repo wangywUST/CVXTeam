@@ -21,26 +21,28 @@ testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_
 
 #X_train,y_train = model4(trainPredFile, trainTrueFile, testPredFile)
 
-def my_custom_loss_func1(ground_truth, predictions):
-    ground_truth = map(lambda x: 1 if x>=15 else 0, ground_truth)
-    predictions = map(lambda x: 1 if x>=15 else 0, predictions)
-    diff = [ground_truth[i] - predictions[i] for i in range(len(ground_truth))]
-    return reduce(lambda x,y: x+y, map(lambda x: 1 if x==0 else 0, diff))*1.0/len(ground_truth)
+#def my_custom_loss_func1(ground_truth, predictions):
+#    ground_truth = map(lambda x: 1 if x>=15 else 0, ground_truth)
+#    predictions = map(lambda x: 1 if x>=15 else 0, predictions)
+#    diff = [ground_truth[i] - predictions[i] for i in range(len(ground_truth))]
+#    return reduce(lambda x,y: x+y, map(lambda x: 1 if x==0 else 0, diff))*1.0/len(ground_truth)
 def my_custom_loss_func2(ground_truth, predictions):
     ground_truth = map(lambda x: 1 if x>=0.5 else 0, ground_truth)
     predictions = map(lambda x: 1 if x>=0.5 else 0, predictions)
     diff = [ground_truth[i] - predictions[i] for i in range(len(ground_truth))]
     return reduce(lambda x,y: x+y, map(lambda x: 1 if x==0 else 0, diff))*1.0/len(ground_truth)
 
-score1 = make_scorer(my_custom_loss_func1, greater_is_better=True) 
+#score1 = make_scorer(my_custom_loss_func1, greater_is_better=True) 
 score2 = make_scorer(my_custom_loss_func2, greater_is_better=True) 
-
+#%%
 X_train_copy = X_train.copy()
 y_train_copy = y_train.copy()
 X_train_copy[:,4:] = 1/(1+np.exp(-(X_train_copy[:,4:]-15)))
+X_train_copy = np.concatenate((X_train_copy,X_train_copy[:,4:14].mean(axis = 1).reshape(-1,1),\
+                               X_train_copy[:,4:14].std(axis = 1).reshape(-1,1)),axis = 1)
+#X_train_copy[:,3] += (X_train_copy[:,2]-1)*24
 X_train_copy = np.delete(X_train_copy, [2], axis=1)  
 y_train_copy = 1/(1+np.exp(-(y_train_copy-15)))
-
 
 #xgbr = xgb.XGBRegressor()
 #param_grid = {'max_depth':[3,4,5,6],
@@ -62,33 +64,34 @@ y_train_copy = 1/(1+np.exp(-(y_train_copy-15)))
 #adb_best = grid_search_adb.best_estimator_
 #print 'Score for AdaBoosting :',cross_val_score(adb_best,X_train,y_train,cv=10,scoring=score).mean()
 
-
-#xgbr = xgb.XGBRegressor()
-#print 'Score for XGBoosting :',cross_val_score(xgbr,X_train,y_train,cv=3,scoring=score1).mean()
+#%%
 xgbr = xgb.XGBRegressor()
-param_grid = {'max_depth':range(3,9),
-              'learning_rate': 3*np.logspace(-6,-1,6), 
-              'reg_alpha': np.logspace(-6,-1,6),
-              'reg_lambda': range(1,10),
-              'objective': ['reg:linear','reg:logistic'],
-              'n_estimators':[50,100,200,400]}
-#param_grid = {'max_depth':[5],
-#              'learning_rate': [3e-4], 
-#              'reg_alpha': [5],
-#              'reg_lambda': [1],
-#              'objective': ['reg:logistic'],
-#              'n_estimators':[100]}
-grid_search_xgbr = GridSearchCV(xgbr, param_grid=param_grid, scoring=score2,cv=3,verbose = 2).fit(X_train_copy,y_train_copy)
-xgbr_best = grid_search_xgbr.best_estimator_
-print 'Score for XGBoosting :',cross_val_score(xgbr_best,X_train_copy,y_train_copy,cv=3,scoring=score2).mean()
+param_grid = {'max_depth':[2],
+              'min_child_weight':[1],
+              'gamma':[0],
+              'subsample':[0.9],
+              'colsample_bytree':[0.9],
+              'scale_pos_weight':[1],
+              'learning_rate': [0.1], 
+              'reg_alpha': [1e-5],
+              'reg_lambda':[1],
+              'objective': ['reg:logistic'],
+              'n_estimators':[20]}
+##param_grid = {'max_depth':[3],
+##              'learning_rate': 0.01*np.linspace(1,10,10), 
+##              'reg_alpha': 0.002*np.linspace(1,10,10),
+##              'reg_lambda':range(1,11),
+##              'objective': ['reg:logistic'],
+##              'n_estimators':[100]}
+grid_search_xgbr = GridSearchCV(xgbr, param_grid=param_grid, scoring=score2,cv=3,verbose = 2,iid = False).fit(X_train_copy,y_train_copy)
+grid_search_xgbr.grid_scores_
+#xgbr_best = grid_search_xgbr.best_estimator_
+#print 'Score for XGBoosting :',cross_val_score(xgbr_best,X_train_copy,y_train_copy,cv=3,scoring=score2).mean()
 
 
-##adb = AdaBoostRegressor()
-##print 'Score for AdaBoosting :',cross_val_score(adb,X_train,y_train,cv=3,scoring=score1).mean()
 #adb = AdaBoostRegressor()
-##param_grid = {'learning_rate': [0.3,1,3,10], 
-##              'n_estimators': [50,100,200],
-##              'loss': ['linear', 'square', 'exponential']}
+#print 'Score for AdaBoosting :',cross_val_score(adb,X_train,y_train,cv=3,scoring=score1).mean()
+#adb = AdaBoostRegressor()
 #param_grid = {'learning_rate': [0.03], 
 #              'n_estimators': [100],
 #              'loss': ['linear']}
@@ -96,16 +99,12 @@ print 'Score for XGBoosting :',cross_val_score(xgbr_best,X_train_copy,y_train_co
 #adb_best = grid_search_adb.best_estimator_
 #print 'Score for AdaBoosting :',cross_val_score(adb_best,X_train_copy,y_train_copy,cv=3,scoring=score2).mean()
 
-
-##mlpr = MLPRegressor()
-##print 'Score for  MLPRegressor :',cross_val_score(mlpr,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
-#gbm = lgb.LGBMRegressor()
-#print 'Score for  LGBMRegressor :',cross_val_score(gbm,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
-#rfr = RandomForestRegressor()
-#print 'Score for  RandomForestRegressor :',cross_val_score(rfr,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
-#gbr = GradientBoostingRegressor()
-#print 'Score for  GradientBoostingRegressor :',cross_val_score(gbr,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
-#br = BaggingRegressor()
-#print 'Score for  BaggingRegressor :',cross_val_score(br,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
-##etr = ExtraTreesRegressor()
-##print 'Score for  ExtraTreesRegressor :',cross_val_score(etr,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
+#%%
+#mlpr = MLPRegressor(hidden_layer_sizes = 100, activation = 'logistic',max_iter = 800)
+#print 'Score for  MLPRegressor :',cross_val_score(mlpr,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
+#gbr = GradientBoostingRegressor(learning_rate = 0.1, max_depth = 3,min_samples_leaf = 12, min_samples_split = 40,\
+#                                max_features=8,subsample = 0.8,random_state=10,n_estimators = 80)
+#param_grid = {} 
+#grid_search_gbr = GridSearchCV(gbr, param_grid=param_grid, scoring=score2,cv=3,verbose = 2,iid = False).fit(X_train_copy,y_train_copy)
+#print grid_search_gbr.grid_scores_
+#print 'Score for GradientBoostingRegressor:',cross_val_score(gbr,X_train_copy,y_train_copy.ravel(),cv=3,scoring=score2).mean()
