@@ -22,13 +22,13 @@ def model1(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
         y_train = Data["wind"].values.reshape(-1,1)
         Data.drop(["wind"],axis = 1,inplace = True)
         y_train = np.kron(y_train,np.ones(10).reshape(-1,1)).ravel()   
-        print "block "+str(i)+" loaded"
+        print("block "+str(i)+" loaded")
         clf_p.partial_fit(X_train,y_train)
         y_test = clf_p.predict(X_test)
         y_test = np.mean(y_test.reshape(-1,10),axis = 1)
         wind = pd.DataFrame(y_test,columns = ["wind"])
         predict = predict.append(pd.concat((Data,wind),axis = 1),ignore_index = True)
-        print "block "+str(i)+" predicted"
+        print("block "+str(i)+" predicted")
     return predict
 
 def model2(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421):
@@ -70,6 +70,7 @@ def model4(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
     df_train = pd.read_csv(trainPredFile, chunksize = chunksize)
     df_test = pd.read_csv(testPredFile, chunksize = chunksize)
     df_train_true = pd.read_csv(trainTrueFile, chunksize = chunksize / 10)
+<<<<<<< HEAD
     X_test_blk = []
     for i in range(90): 
         X_test = df_test.get_chunk(chunksize)
@@ -90,6 +91,35 @@ def model4(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
         X_test_blk += [X_test_mini]
     predict1 = np.asarray(X_test_blk).reshape(-1,5)
     del X_test_blk,ind
+=======
+#    predict = pd.DataFrame(columns = ["xid","yid","date_id","hour","wind"])  
+    blksz = 20
+    xseg = [blksz]*(xsize/blksz)+[xsize%blksz]
+    yseg = [blksz]*(ysize/blksz)+[ysize%blksz]
+    for x in range(len(xseg)):
+        for y in range(len(yseg)):
+            X_blk,y_blk = [],[]
+            for i in range(90): 
+                wind = df_train.get_chunk(chunksize)
+                wind = wind["wind"].values.reshape(xsize * ysize, 10)
+                Data = df_train_true.get_chunk(chunksize / 10).reset_index(drop=True)
+                y_train = Data["wind"].values.reshape(-1,1)
+                X_train = Data.drop(["wind"],axis = 1)
+                del Data
+                X_train = np.concatenate((X_train,wind),axis = 1)
+                ind = (sum(xseg[:x]) < X_train[:,0]) & (X_train[:,0] <= sum(xseg[:x+1])) & \
+                (sum(yseg[:y]) < X_train[:,1]) & (X_train[:,1] <= sum(yseg[:y+1]))
+                X_train_mini,y_train_mini = X_train[ind],y_train[ind]
+                print("block "+str(i)+" loaded")
+                X_blk += [X_train_mini]
+                y_blk += [y_train_mini]
+            return np.asarray(X_blk).reshape(-1,14),np.asarray(y_blk).reshape(-1,1)
+#        Data = df_train_true.get_chunk(chunksize / 10).reset_index(drop=True)
+#        Data.drop(["wind"],axis = 1,inplace = True)
+#        wind = pd.DataFrame(y_pred,columns = ["wind"])
+#        predict = predict.append(pd.concat((Data,wind),axis = 1),ignore_index = True)
+#    return predict
+>>>>>>> 96588f6e9601c0d5d9ff0f1125a6870c11a5f5f0
 
     df_train = pd.read_csv(trainPredFile, chunksize = chunksize)
     df_test = pd.read_csv(testPredFile, chunksize = chunksize)
