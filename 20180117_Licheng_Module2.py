@@ -19,7 +19,7 @@ trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforT
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 cityLocFile = "Data\CityData.csv"
 testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_4.csv"
-submitPath = "Data\submitResult_Licheng.csv"
+submitPath = "Data\submitResult_Licheng_20180128.csv"
 
 
 #trainPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTraining_201712.csv"
@@ -43,8 +43,7 @@ chunksize = xsize * ysize
 
 block = []
 windGraph = np.zeros((hourNum,xsize,ysize))
-fullScore = []
-for dayNum in [3]:#range(1, maxDay + 1):
+for dayNum in [5]:#range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -58,16 +57,12 @@ for dayNum in [3]:#range(1, maxDay + 1):
         height = 0
         try:
             Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
-            Score = obtainScore(Pathinfo, windGraph)
             (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
             block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
         except:
             Pathinfo = []
-            Score = 1440
-        print Score
-        fullScore += [Score]
 
 block = np.asarray(block)
 #%%
-#df_b = pd.DataFrame(block)
-#df_b.to_csv(submitPath, header=None,index = False)
+df_b = pd.DataFrame(block)
+df_b.to_csv(submitPath, header=None,index = False)
