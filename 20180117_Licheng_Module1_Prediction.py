@@ -8,9 +8,10 @@ from sklearn.neural_network import MLPRegressor
 trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
-outputPath = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_"+str(3)+".csv" 
-predict = model3(trainPredFile, trainTrueFile, testPredFile)
-predict.to_csv(outputPath,index = False)
+TrainData,TrainLabel,TestData,Output = model4(trainPredFile, trainTrueFile, testPredFile)
+#outputPath = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_"+str(3)+".csv" 
+#predict = model3(trainPredFile, trainTrueFile, testPredFile)
+#predict.to_csv(outputPath,index = False)
 
 
 
