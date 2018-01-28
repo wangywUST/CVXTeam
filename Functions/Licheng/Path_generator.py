@@ -4,7 +4,7 @@ Created on Wed Jan 17 19:33:08 2018
 
 @author: lwuag
 """
-from Path_design_Update import *
+from Path_design_Update_1 import *
 from Remedy_4_no_way import *
 from Remedy_4_false_end import *
 from index_2_xy import *
@@ -18,7 +18,8 @@ def Path_generator(windGraph, xCity_begin, yCity_begin, xCity_end, yCity_end, th
     Data = Data_convert(windGraph, thre_wind, MultiLay=False, Convert = False)
     try:
 #        Pathinfo = Path_design(Data, star_point, end_point, end_point, height)
-        Pathinfo = Path_design_Update(Data, star_point, end_point, height, thre_wind)
+#        Pathinfo = Path_design_Update_1(Data, star_point, end_point, height, thre_wind)
+        Pathinfo = Path_design_Update_1(Data, star_point, end_point, end_point, height, thre_wind)
     except:
         Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
         

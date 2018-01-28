@@ -43,7 +43,7 @@ chunksize = xsize * ysize
 
 block = []
 windGraph = np.zeros((hourNum,xsize,ysize))
-for dayNum in [5]:#range(1, maxDay + 1):
+for dayNum in [3]:#range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -55,14 +55,14 @@ for dayNum in [5]:#range(1, maxDay + 1):
         print dayNum + 5,cityNum
         thre_wind = 15
         height = 0
-        try:
-            Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
-            (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
-            block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
-        except:
-            Pathinfo = []
+#        try:
+        Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
+        (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
+        block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
+#        except:
+#            Pathinfo = []
 
 block = np.asarray(block)
 #%%
-#df_b = pd.DataFrame(block)
-#df_b.to_csv(submitPath, header=None,index = False)
+df_b = pd.DataFrame(block)
+df_b.to_csv(submitPath, header=None,index = False)
