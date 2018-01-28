@@ -70,6 +70,7 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
     y = np.linspace(1, ysize, ysize)
     X,Y = np.meshgrid(y, x)
     for dayNum in range(1,maxDay+1):
+        print(dayNum)
         df = pd.read_csv(weatherfile, chunksize = chunksize)
         df = jumpDays(df, dayNum-1, chunksize)
         for _ in range(18):
@@ -86,7 +87,7 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
             if(Len > 0):
                 seg += [Len]
             for j in range(min(18, len(seg))):  
-                print(j)
+#                print(j)
                 windGraph1 = windGraph[j, :, :].copy()
                 windGraph1[windGraph[j, :, :] >= 15] = 10
                 windGraph1[windGraph[j, :, :] < 15] = 0
@@ -101,8 +102,8 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
 #                plt.clabel(CS, fmt = '%2.1d', colors = 'k', fontsize=14) #contour line labels
                 plt.colorbar(CSF, shrink=0.8, extend='both')
                 
-                plt.title('Figure/Linlong/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
-                plt.savefig('Figure/Linlong/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.png')
+                plt.title('Figure/Linlong_20180119/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
+                plt.savefig('Figure/Linlong_20180119/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.png')
                 plt.clf()
 
 
