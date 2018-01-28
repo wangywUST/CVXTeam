@@ -10,7 +10,7 @@ import numpy as np
 import datetime as dt
 from Path_design import *
 from Path_design_Update import *
-from obtainScore import *
+from Module3_func import *
 from Data_convert import *
 from Path_generator import *
 
@@ -18,7 +18,7 @@ trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTrainin
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 cityLocFile = "Data\CityData.csv"
-testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
+testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_4.csv"
 submitPath = "Data\submitResult_Licheng.csv"
 
 
@@ -43,8 +43,8 @@ chunksize = xsize * ysize
 
 block = []
 windGraph = np.zeros((hourNum,xsize,ysize))
-#fullScore = []
-for dayNum in range(1, maxDay + 1):
+fullScore = []
+for dayNum in [3]:#range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -52,22 +52,22 @@ for dayNum in range(1, maxDay + 1):
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
 
     star_point = xCity[0] * ysize + yCity[0]
-    for cityNum in range(1, maxCity + 1):
+    for cityNum in [9]:#range(1, maxCity + 1):
         print dayNum + 5,cityNum
         thre_wind = 15
         height = 0
         try:
             Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
-#            Score = obtainScore(Pathinfo, windGraph)
+            Score = obtainScore(Pathinfo, windGraph)
             (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
             block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))
         except:
             Pathinfo = []
-#            Score = 1440
-#        print Score
-#        fullScore += [Score]
+            Score = 1440
+        print Score
+        fullScore += [Score]
 
 block = np.asarray(block)
 #%%
-df_b = pd.DataFrame(block)
-df_b.to_csv(submitPath, header=None,index = False)
+#df_b = pd.DataFrame(block)
+#df_b.to_csv(submitPath, header=None,index = False)
