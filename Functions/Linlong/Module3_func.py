@@ -102,8 +102,8 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
 #                plt.clabel(CS, fmt = '%2.1d', colors = 'k', fontsize=14) #contour line labels
                 plt.colorbar(CSF, shrink=0.8, extend='both')
                 
-                plt.title('Figure/Linlong_20180119/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
-                plt.savefig('Figure/Linlong_20180119/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.png')
+                plt.title('Figure/Test/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour ')
+                plt.savefig('Figure/Test/' + str(dayNum+5) + ' Day ' + str(city) + ' City ' + str(j + 3) + ' Hour.png')
                 plt.clf()
 
 
