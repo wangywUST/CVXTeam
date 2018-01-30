@@ -18,7 +18,8 @@ trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTrainin
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 cityLocFile = "Data\CityData.csv"
-testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_4.csv"
+#testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_4.csv"
+testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 submitPath = "Data\submitResult_Licheng_20180128.csv"
 
 
@@ -43,7 +44,7 @@ chunksize = xsize * ysize
 
 block = []
 windGraph = np.zeros((hourNum,xsize,ysize))
-for dayNum in [3]:#range(1, maxDay + 1):
+for dayNum in [1]:#range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -51,7 +52,7 @@ for dayNum in [3]:#range(1, maxDay + 1):
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
 
     star_point = xCity[0] * ysize + yCity[0]
-    for cityNum in [9]:#range(1, maxCity + 1):
+    for cityNum in range(1, maxCity + 1):
         print dayNum + 5,cityNum
         thre_wind = 15
         height = 0

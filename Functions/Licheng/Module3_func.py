@@ -39,7 +39,7 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
             pathpiece = pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["x","y"]].reset_index(drop = True)
             Len = pathpiece.shape[0]
             if(Len == 0):
-                Score += [1440]
+                Score += []
                 continue
             seg = []
             while(Len>=30):
@@ -51,9 +51,10 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
             for j in range(len(seg)): 
                 for i in range(seg[j]):
                     if(windGraph[j,int(pathpiece["x"][j*30+i]), int(pathpiece["y"][j*30+i])] >= threshold):
-                        print("die " + str(windGraph[j,int(pathpiece["x"][j*30+i]), int(pathpiece["y"][j*30+i])]) +" " + str(j)+ " " +str(i))
+                        print("die " + str(windGraph[j,int(pathpiece["x"][j*30+i]), int(pathpiece["y"][j*30+i])]) +" " + str(j+3)+ " " +str(i*2))
                         flag = True
                 if(j == len(seg)-1):
+                    i = seg[j] - 1
                     if pathpiece["x"][j*30+i]!= xCity[city] or pathpiece["y"][j*30+i] != yCity[city]:
                         flag = True   
             print "==========================="
@@ -86,7 +87,7 @@ def plotweather(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
                 Len -= 30
             if(Len > 0):
                 seg += [Len]
-            for j in range(len(seg)):  
+            for j in range(min(len(seg),18)):  
                 windGraph1 = windGraph[j, :, :].copy()
                 windGraph1[windGraph[j, :, :] >= 15] = 10
                 windGraph1[windGraph[j, :, :] < 15] = 0
