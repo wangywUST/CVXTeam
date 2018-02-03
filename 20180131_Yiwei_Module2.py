@@ -101,5 +101,4 @@ if __name__ == "__main__":
         windGraph = getWindGraph(dayNum)
         block += extendBlock()
     writeToSubmitFile(block)
-        
 
