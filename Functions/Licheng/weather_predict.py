@@ -35,18 +35,23 @@ def model2(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
     chunksize = xsize * ysize * 10
     df_test = pd.read_csv(testPredFile, chunksize = chunksize)
     df_train_true = pd.read_csv(trainTrueFile, chunksize = chunksize / 10)
-    df_test = pd.read_csv(testPredFile, chunksize = chunksize)
-    predict = pd.DataFrame(columns = ["xid","yid","date_id","hour","wind"])
+    predict = pd.DataFrame(columns = ["xid","yid","date_id","hour","wind","rainfall"])
     for i in range(90): 
         X_test = df_test.get_chunk(chunksize)
         y_pred = X_test["wind"].values.reshape(xsize * ysize, 10)
         y_pred1 = np.median(y_pred, axis = 1).ravel()
         y_pred2 = np.mean(y_pred, axis = 1).ravel()
-        y_pred = np.max([y_pred1,y_pred2],axis = 0)
+        y_pred_wind = np.max([y_pred1,y_pred2],axis = 0)
+        y_pred = X_test["rainfall"].values.reshape(xsize * ysize, 10)
+        y_pred1 = np.median(y_pred, axis = 1).ravel()
+        y_pred2 = np.mean(y_pred, axis = 1).ravel()
+        y_pred_rainfall = np.max([y_pred1,y_pred2],axis = 0)
         Data = df_train_true.get_chunk(chunksize / 10).reset_index(drop=True)
-        Data.drop(["wind"],axis = 1,inplace = True)
-        wind = pd.DataFrame(y_pred,columns = ["wind"])
-        predict = predict.append(pd.concat((Data,wind),axis = 1),ignore_index = True)
+        Data.drop(["wind","rainfall"],axis = 1,inplace = True)
+        wind = pd.DataFrame(y_pred_wind,columns = ["wind"])
+        rainfall = pd.DataFrame(y_pred_rainfall,columns = ["rainfall"])
+        predict = predict.append(pd.concat((Data,wind,rainfall),axis = 1),ignore_index = True)
+        print "block "+str(i)+" loaded"
     return predict
 
 def model3(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421):
