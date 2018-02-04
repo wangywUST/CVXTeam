@@ -79,18 +79,18 @@ def plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,seg,
         print "Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3) + ", City: " + str(city)
         windGraph_j = windGraph[j, :, :].copy()
         rainGraph_j = rainGraph[j, :, :].copy()
-        feasible_j = np.zeros((xsize,ysize))
+        feasible_j = np.zeros(windGraph_j.shape)
         feasible_j[(windGraph_j >= 15) | (rainGraph_j >= 4)] = 1
         plt.scatter(yCity[1:11], xCity[1:11], marker='x', s=50, c = 'gold', zorder=10)
         plt.scatter(yCity[0], xCity[0], marker='*', s=50, c = 'gold', zorder=10)
         plt.scatter(pathpiece["y"], pathpiece["x"], marker='x', s=1, c = 'gold', zorder=10)
         plt.scatter(pathpiece["y"][sum(seg[:j]):sum(seg[:j+1])], pathpiece["x"][sum(seg[:j]):sum(seg[:j+1])], \
             marker='x', s=1, c = 'g', zorder=10)
-        CSF = plt.contourf(X, Y, windGraph_j, 8, alpha=.95, cmap=plt.cm.Greys)
+        CSF = plt.contourf(X, Y, feasible_j, 8, alpha=.95, cmap=plt.cm.Greys)
         plt.colorbar(CSF, shrink=0.8, extend='both')
         plt.title("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3) + ", City: " + str(city))
-        plt.savefig('Figure/Licheng/' + "Day_"+str(dayNum+5) + "_Hour_"+ str(j + 3) \
-            + "_City_" + str(city) + '.png')
+        plt.savefig('Figure/Licheng/' + "Day_"+str(dayNum+5) + "_City_" + str(city) + "_Hour_"+ str(j + 3) \
+             + '.png')
         plt.clf()
         print "Done!"
 
