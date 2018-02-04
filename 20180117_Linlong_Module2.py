@@ -42,7 +42,7 @@ hourNum = 18
 chunksize = xsize * ysize
 
 block = []
-windGraph = np.zeros((hourNum,xsize,ysize))
+windGraph = np.zeros((hourNum, xsize, ysize))
 #fullScore = []
 for dayNum in [3]: #range(1, maxDay + 1):
     print(dayNum)
