@@ -34,7 +34,7 @@ hourNum = 18
 divStart = 10
 
 #The threshold of the dangerous wind speed
-thre_wind = 15
+thre_wind = 0.5
 
 #Executing Ranges
 dayList = [1] #The days that would be dealt with (1 - 5)
@@ -69,18 +69,30 @@ def getWindGraph(dayIndex, startHour):
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
     return windGraph
 
+def get_Wind_Rain_Graph(dayIndex, startHour):
+    feasible = np.zeros((hourNum, xsize, ysize))
+    df = pd.read_csv(testTrueFile, chunksize = chunksize)
+    df = jumpDays(df, dayIndex-1, chunksize)
+    for _ in range(startHour, hourNum):
+        wind_rain_Gra = df.get_chunk(chunksize)[["wind","rainfall"]]
+        windGraph_j = wind_rain_Gra["wind"].values.reshape(xsize,ysize).copy()
+        rainGraph_j = wind_rain_Gra["rainfall"].values.reshape(xsize,ysize).copy()
+        feasible_j = np.zeros(windGraph_j.shape)
+        feasible_j[(windGraph_j >= 15) | (rainGraph_j >= 4)] = 1
+        feasible[_,:,:] = feasible_j.copy()
+    return feasible
 
 from submitFormat import *
 from Path_generator import *
 #Add new Paths of one city, one day to the existing block.
 #Output: Return extended part.
 #Input: existing block.
-def extendBlock(windGraph):
+def extendBlock(windGraph, startMin):
     star_point = xCity[0] * ysize + yCity[0]
     extendedPart = []
     for cityNum in cityList:
         height = 0
-        Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)     
+        Pathinfo = Path_generator(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height, startMin)     
         (des_n_city, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
         extendedPart += list(np.concatenate((des_n_day, des_n_city, Pathinfo), axis = 1))
     return extendedPart
@@ -107,7 +119,7 @@ if __name__ == "__main__":
         startTime = timeSlot.pop(0)
         startHour = startTime // int(60 / divStart)
         startMin = startTime * 10 - startHour * 60
-        windGraph = getWindGraph(dayNum, startHour)
-        block += extendBlock(windGraph)
+        windGraph = get_Wind_Rain_Graph(dayNum, startHour)
+        block += extendBlock(windGraph, startMin)
     writeToSubmitFile(block)
 

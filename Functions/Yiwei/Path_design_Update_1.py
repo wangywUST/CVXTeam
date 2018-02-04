@@ -28,7 +28,7 @@ from Remedy_4_no_way import *
 from check_start_point import *
 from check_End_as_Start import *
 
-def Path_design_Update_1(Data, star_point, true_end, end_point_replace, height, threshold):
+def Path_design_Update_1(Data, star_point, true_end, end_point_replace, height, threshold, startMin):
     high_num = int(Data.shape[0])
     row_num = int(Data.shape[1])
     col_num = int(Data.shape[2])      
@@ -64,19 +64,19 @@ def Path_design_Update_1(Data, star_point, true_end, end_point_replace, height, 
             if Data[height, i, j] < threshold:
                 index = i * col_num + j
                 if i - 1 >= 0 and Data[height,i - 1, j] < threshold:
-                    cost = 2 + tune_para * Data[height,i - 1, j] * 1.0 / 30 * 2
+                    cost = 2 + tune_para * Data[height,i - 1, j] * 1.0 / (30) * 2
                     index_next = (i - 1) * col_num + j
                     graph.add_edge(index, index_next, {'cost': cost})
                 if i + 1 < row_num and Data[height, i + 1, j] < threshold:
-                    cost = 2 + tune_para * Data[height,i + 1, j] * 1.0 / 30 * 2
+                    cost = 2 + tune_para * Data[height,i + 1, j] * 1.0 / (30) * 2
                     index_next = (i + 1) * col_num + j
                     graph.add_edge(index, index_next, {'cost': cost})
                 if j - 1 >= 0 and Data[height, i, j - 1] < threshold:
-                    cost = 2 + tune_para * Data[height, i, j - 1] * 1.0 / 30 * 2
+                    cost = 2 + tune_para * Data[height, i, j - 1] * 1.0 / (30) * 2
                     index_next = i * col_num + (j - 1)
                     graph.add_edge(index, index_next, {'cost': cost})
                 if j + 1 < col_num and Data[height, i, j + 1] < threshold:
-                    cost = 2 + tune_para * Data[height, i, j + 1] * 1.0 / 30 * 2
+                    cost = 2 + tune_para * Data[height, i, j + 1] * 1.0 / (30) * 2
                     index_next = i * col_num + (j + 1)
                     graph.add_edge(index, index_next, {'cost': cost})
     cost_func_1 = lambda u, v, e, prev_e: e['cost']
