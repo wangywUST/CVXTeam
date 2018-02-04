@@ -30,6 +30,9 @@ maxDay = 5
 maxCity = 10
 hourNum = 18
 
+#Gap minutes of different starting points
+divStart = 10
+
 #The threshold of the dangerous wind speed
 thre_wind = 15
 
@@ -39,6 +42,9 @@ cityList = [1] #The citys that would be dealt with (1 - 10)
 
 #One map's data size
 chunksize = xsize * ysize
+
+#time slot which can be chosen
+timeSlot = list(range(hourNum * (60 / divStart) + 1))
 
 
 #%% Defining Functions -----------------------------------------------------------------------------
@@ -54,11 +60,11 @@ import pandas as pd
 #Output: Return a 3 dimensional matrix containing 18 layers (18 hours), np.array
 #one xsize by ysize double matrix per layer.
 #Input: index of the day, int, [1, 5]
-def getWindGraph(dayIndex):
+def getWindGraph(dayIndex, startHour):
     windGraph = np.zeros((hourNum,xsize,ysize))
     df = pd.read_csv(testTrueFile, chunksize = chunksize)
     df = jumpDays(df, dayIndex-1, chunksize)
-    for _ in range(hourNum):
+    for _ in range(startHour, hourNum):
         windGra = df.get_chunk(chunksize)["wind"]
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
     return windGraph
@@ -69,7 +75,7 @@ from Path_generator import *
 #Add new Paths of one city, one day to the existing block.
 #Output: Return extended part.
 #Input: existing block.
-def extendBlock():
+def extendBlock(windGraph):
     star_point = xCity[0] * ysize + yCity[0]
     extendedPart = []
     for cityNum in cityList:
@@ -98,7 +104,10 @@ if __name__ == "__main__":
     
     block = []  #containing result path information 
     for dayNum in dayList:
-        windGraph = getWindGraph(dayNum)
-        block += extendBlock()
+        startTime = timeSlot.pop(0)
+        startHour = startTime // int(60 / divStart)
+        startMin = startTime * 10 - startHour * 60
+        windGraph = getWindGraph(dayNum, startHour)
+        block += extendBlock(windGraph)
     writeToSubmitFile(block)
 
