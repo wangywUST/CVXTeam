@@ -51,7 +51,7 @@ import numpy as np
 import pandas as pd
 
 #Get wind graph of one day. 
-#Output: Return a 3 dimensional matrix containing 18 layers (18 hours), 
+#Output: Return a 3 dimensional matrix containing 18 layers (18 hours), np.array
 #one xsize by ysize double matrix per layer.
 #Input: index of the day, int, [1, 5]
 def getWindGraph(dayIndex):
