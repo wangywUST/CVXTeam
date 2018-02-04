@@ -8,7 +8,7 @@ from heuristicSquareAlg import *
 from showPoint import *
 import numpy as np
 from fillPath import *
-from obtainScore import *
+from Module3_func import *
 
 def givePath(windGraph, Departure, destination, xsize, ysize, xCity, yCity):
     iniLoc = Departure.copy()
