@@ -15,34 +15,35 @@ trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTrainin
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 
-#outputPath = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_"+str(3)+".csv" 
-#predict = model3(trainPredFile, trainTrueFile, testPredFile)
-#predict.to_csv(outputPath,index = False)
 
-#X_train,y_train = model4(trainPredFile, trainTrueFile, testPredFile)
-
+X_train,y_train = model5(trainPredFile, trainTrueFile, testPredFile)
+#%%
 #def my_custom_loss_func1(ground_truth, predictions):
 #    ground_truth = map(lambda x: 1 if x>=15 else 0, ground_truth)
 #    predictions = map(lambda x: 1 if x>=15 else 0, predictions)
 #    diff = [ground_truth[i] - predictions[i] for i in range(len(ground_truth))]
 #    return reduce(lambda x,y: x+y, map(lambda x: 1 if x==0 else 0, diff))*1.0/len(ground_truth)
-def my_custom_loss_func2(ground_truth, predictions):
+def my_custom_loss_func(ground_truth, predictions):
     ground_truth = map(lambda x: 1 if x>=0.5 else 0, ground_truth)
     predictions = map(lambda x: 1 if x>=0.5 else 0, predictions)
     diff = [ground_truth[i] - predictions[i] for i in range(len(ground_truth))]
     return reduce(lambda x,y: x+y, map(lambda x: 1 if x==0 else 0, diff))*1.0/len(ground_truth)
 
 #score1 = make_scorer(my_custom_loss_func1, greater_is_better=True) 
-score2 = make_scorer(my_custom_loss_func2, greater_is_better=True) 
+score = make_scorer(my_custom_loss_func, greater_is_better=True) 
 #%%
 X_train_copy = X_train.copy()
 y_train_copy = y_train.copy()
 X_train_copy[:,4:] = 1/(1+np.exp(-(X_train_copy[:,4:]-15)))
+X_train_copy = np.delete(X_train_copy, [2], axis=1)  
+
+y_train_copy = 1/(1+np.exp(-(y_train_copy-15)))
+#%%
 X_train_copy = np.concatenate((X_train_copy,X_train_copy[:,4:14].mean(axis = 1).reshape(-1,1),\
                                X_train_copy[:,4:14].std(axis = 1).reshape(-1,1)),axis = 1)
 #X_train_copy[:,3] += (X_train_copy[:,2]-1)*24
-X_train_copy = np.delete(X_train_copy, [2], axis=1)  
-y_train_copy = 1/(1+np.exp(-(y_train_copy-15)))
+
+
 
 #xgbr = xgb.XGBRegressor()
 #param_grid = {'max_depth':[3,4,5,6],
@@ -83,7 +84,7 @@ param_grid = {'max_depth':[2],
 ##              'reg_lambda':range(1,11),
 ##              'objective': ['reg:logistic'],
 ##              'n_estimators':[100]}
-grid_search_xgbr = GridSearchCV(xgbr, param_grid=param_grid, scoring=score2,cv=3,verbose = 2,iid = False).fit(X_train_copy,y_train_copy)
+grid_search_xgbr = GridSearchCV(xgbr, param_grid=param_grid, scoring=score,cv=3,verbose = 2,iid = False).fit(X_train_copy,y_train_copy)
 grid_search_xgbr.grid_scores_
 #xgbr_best = grid_search_xgbr.best_estimator_
 #print 'Score for XGBoosting :',cross_val_score(xgbr_best,X_train_copy,y_train_copy,cv=3,scoring=score2).mean()
