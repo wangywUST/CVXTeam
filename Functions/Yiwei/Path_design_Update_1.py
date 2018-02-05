@@ -85,12 +85,11 @@ def Path_design_Update_1(Data, star_point, true_end, end_point_replace, height, 
 #    heuristic_func_1 = None
 #    PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
     try:
-        print(2222)
         PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
         PathInfo = PathInfo.nodes  
 #        print(PathInfo)
     except:
-        print(1111)
+#        print(1111)
         PathInfo = Remedy_4_no_way(Data, star_point, true_end) # stand still
     
 #    PathInfo = PathInfo.nodes    
@@ -105,7 +104,6 @@ def Path_design_Update_1(Data, star_point, true_end, end_point_replace, height, 
                     print('Good')
                     return PathInfo
                 else:
-                    print(2)
                     return PathInfo[0:30] + Path_design_Update_1(Data, PathInfo[30], true_end, true_end, height+1, threshold)
             elif PathInfo[-1] == end_point_replace:
                 if len(PathInfo) <= 30:
@@ -124,5 +122,4 @@ def Path_design_Update_1(Data, star_point, true_end, end_point_replace, height, 
                 end_point_replace = check_End_as_Start(Data[height + 1, :, :], star_point, PathInfo[-1], col_num, size_bound, threshold)
                 return Path_design_Update_1(Data, star_point, true_end, end_point_replace, height, threshold)
             else:
-                print('bad end')
                 return PathInfo[0:30] + Path_design_Update_1(Data, PathInfo[30], true_end, true_end, height+1, threshold)
