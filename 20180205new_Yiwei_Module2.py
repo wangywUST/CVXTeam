@@ -14,7 +14,7 @@ cityLocFile = "Data/CityData.csv"
 testTrueFile = "C:/Users/wangyw/Dropbox/Contest/contest/Input/predict_model_2.csv"
 # testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
-submitPath = "Data/submitResult_Yiwei_20180204.csv"
+submitPath = "Data/submitResult_Yiwei_20180204_1.csv"
 
 #Function Paths
 LinlongFunction = "Functions/Yiwei"
@@ -46,6 +46,11 @@ chunksize = xsize * ysize
 #time slot which can be chosen
 timeSlot = list(range(hourNum * (60 / divStart) + 1))
 
+starting_list = [[43,6,46,44,42,1,2,0,7,45],
+                 [25,3,28,26,24,1,2,0,4,27],
+                 [0,55,2,36,54,31,32,30,3,1],
+                 [4,2,0,50,49,51,52,48,3,1],
+                 [6,8,0,5,4,2,3,1,9,7]]
 
 #%% Defining Functions -----------------------------------------------------------------------------
 import sys
@@ -108,8 +113,9 @@ def writeToSubmitFile(block):
     df_b = pd.DataFrame(block)
     df_b.to_csv(submitPath, header=None,index = False)
 
-def selectDiffStart(timeSlot, cityNum, divStart):
-    selecSlots = timeSlot[0 : cityNum]
+def selectDiffStart(dayNum, timeSlot, cityNum, divStart):
+#    selecSlots = timeSlot[0 : cityNum]
+    selecSlots = starting_list[dayNum - 1]
     startHours = [x // int(60 / divStart) for x in selecSlots]
     startMin = [(x % 6) * 10 for x in selecSlots]
     return (selecSlots, startHours, startMin)
@@ -123,7 +129,7 @@ if __name__ == "__main__":
     
     block = []  #containing result path information 
     for dayNum in dayList:
-        (selecSlots, startHours, startMins) = selectDiffStart(timeSlot, maxCity, divStart)
+        (selecSlots, startHours, startMins) = selectDiffStart(dayNum, timeSlot, maxCity, divStart)
         windGraph = get_Wind_Rain_Graph(dayNum)
         block += extendBlock(dayNum, windGraph.copy(), startHours, startMins)
     writeToSubmitFile(block)
