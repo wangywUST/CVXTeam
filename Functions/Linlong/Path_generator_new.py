@@ -22,6 +22,7 @@ def Path_generator_new(windGraph, xCity_begin, yCity_begin, xCity_end, yCity_end
 #        Pathinfo = Path_design_Update_1(Data, star_point, end_point, height, thre_wind)
         Pathinfo = Path_design_Update_3(Data, star_point, end_point, end_point, startHours, startMins, height, thre_wind)
     except:
+        print(11111111)
         Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
         
 #    end_pos = Pathinfo[-1]

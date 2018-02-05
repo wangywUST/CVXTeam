@@ -7,11 +7,11 @@ Created on Mon Feb 05 15:08:59 2018
 
 #%% Setting Paths  ------------------------------------------------------------------------------
 #Input Paths
-trainPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTraining_201802.csv"
-trainTrueFile = "C:\Users\lwuag\Desktop\NewData\In_situMeasurementforTraining_201802.csv"
-testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
+#trainPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTraining_201802.csv"
+#trainTrueFile = "C:\Users\lwuag\Desktop\NewData\In_situMeasurementforTraining_201802.csv"
+#testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
 cityLocFile = "Data\CityData.csv"
-testTrueFile = "C:\Users\lwuag\Desktop\NewData\predict_model_2.csv"
+testTrueFile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Input\predict_model_2.csv"
 #testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
 submitPath = "Data/submitResult_Linlong_20180204.csv"
@@ -49,8 +49,8 @@ timeSlot = list(range(hourNum * (60 / divStart) + 1))
 
 #%% Defining Functions -----------------------------------------------------------------------------
 import sys
-sys.path.append("Functions/Yiwei")
-sys.path.append("Functions/Yiwei/dijkstar")
+sys.path.append("Functions/Linlong")
+sys.path.append("Functions/Linlong/dijkstar")
 
 from jumpDays import *
 import numpy as np
