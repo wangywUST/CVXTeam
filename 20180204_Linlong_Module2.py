@@ -11,11 +11,8 @@ Created on Mon Feb 05 15:08:59 2018
 #trainTrueFile = "C:\Users\lwuag\Desktop\NewData\In_situMeasurementforTraining_201802.csv"
 #testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
 cityLocFile = "Data\CityData.csv"
-<<<<<<< HEAD
 testTrueFile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Input\predict_model_2.csv"
-=======
 testTrueFile = "C:\documents\Dropbox\With Licheng\contest\Data\predict_model_2.csv"
->>>>>>> d486bcbc08de56622149a938f4b296bacf5e0623
 #testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
 submitPath = "Data/submitResult_Linlong_20180204.csv"
