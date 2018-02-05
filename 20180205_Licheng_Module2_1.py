@@ -10,11 +10,11 @@ Created on Mon Feb 05 15:08:59 2018
 # trainPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTraining_201802.csv"
 # trainTrueFile = "C:\Users\lwuag\Desktop\NewData\In_situMeasurementforTraining_201802.csv"
 # testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
-cityLocFile = "Data/CityData.csv"
-testTrueFile = "C:/Users/wangyw/Dropbox/Contest/contest/Input/predict_model_2.csv"
+cityLocFile = "Data\CityData.csv"
+testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
 # testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
-submitPath = "Data/submitResult_Yiwei_20180204_1.csv"
+submitPath = "Data/submitResult_Yiwei_20180205.csv"
 
 #Function Paths
 LinlongFunction = "Functions/Licheng"
@@ -114,8 +114,8 @@ def writeToSubmitFile(block):
     df_b.to_csv(submitPath, header=None,index = False)
 
 def selectDiffStart(dayNum, timeSlot, cityNum, divStart):
-#    selecSlots = timeSlot[0 : cityNum]
-    selecSlots = starting_list[dayNum - 1]
+    selecSlots = timeSlot[0 : cityNum]
+ #   selecSlots = starting_list[dayNum - 1]
     startHours = [x // int(60 / divStart) for x in selecSlots]
     startMin = [(x % 6) * 10 for x in selecSlots]
     return (selecSlots, startHours, startMin)
