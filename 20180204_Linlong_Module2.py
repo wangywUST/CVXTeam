@@ -83,7 +83,7 @@ def get_Wind_Rain_Graph(dayIndex):
     return feasible
 
 from submitFormat import *
-from Path_generator import *
+from Path_generator_new import *
 #Add new Paths of one city, one day to the existing block.
 #Output: Return extended part.
 #Input: existing block.
