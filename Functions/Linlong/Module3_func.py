@@ -92,7 +92,7 @@ def plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,seg,
         CSF = plt.contourf(X, Y, feasible_j, 8, alpha=.95, cmap=plt.cm.Greys)
         plt.colorbar(CSF, shrink=0.8, extend='both')
         plt.title("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3) + ", City: " + str(city))
-        plt.savefig('Figure/Linlong/' + "Day_"+str(dayNum+5) + "_City_" + str(city) + "_Hour_"+ str(j + 3) \
+        plt.savefig('Figure/Linlongnew/' + "Day_"+str(dayNum+5) + "_City_" + str(city) + "_Hour_"+ str(j + 3) \
              + '.png')
         plt.clf()
         print "Done!"
