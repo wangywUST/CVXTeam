@@ -42,7 +42,7 @@ def explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,
             # whenever wind over 15, explode
             if(windGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])] >= threshold_wind or\
                rainGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])] >= threshold_rain):
-                print("dead on hour: " +str(j+3)+ ", minute: " +str((30 - seg[j])*2 + i*2) + ", wind: "+ \
+                print("dead on hour: " +str(j+3)+ ", minute: " +str((30 - seg[j])*2 + i*2 if j != min(len(seg),hourNum) -1 else 2*i) + ", wind: "+ \
                     str(windGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])]) \
                     +", rain: " + str(rainGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])]))
                 flag = True
@@ -92,7 +92,7 @@ def plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,seg,
         CSF = plt.contourf(X, Y, feasible_j, 8, alpha=.95, cmap=plt.cm.Greys)
         plt.colorbar(CSF, shrink=0.8, extend='both')
         plt.title("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3) + ", City: " + str(city))
-        plt.savefig('Figure/Linlongnew/' + "Day_"+str(dayNum+5) + "_City_" + str(city) + "_Hour_"+ str(j + 3) \
+        plt.savefig('Figure/Licheng/' + "Day_"+str(dayNum+5) + "_City_" + str(city) + "_Hour_"+ str(j + 3) \
              + '.png')
         plt.clf()
         print "Done!"
@@ -109,7 +109,7 @@ def plot_func_ref(dayNum,windGraph,rainGraph,xCity,yCity,hourNum,X,Y):
         CSF = plt.contourf(X, Y, feasible_j, 8, alpha=.95, cmap=plt.cm.Greys)
         plt.colorbar(CSF, shrink=0.8, extend='both')
         plt.title("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3))
-        plt.savefig('Figure/Linlong/' +"Day_" + str(dayNum+5) + "_Hour_" + str(j + 3) + ".pdf")
+        plt.savefig('Figure/Linlongnew/' +"Day_" + str(dayNum+5) + "_Hour_" + str(j + 3) + ".pdf")
         plt.clf()
         print "Done!"
 

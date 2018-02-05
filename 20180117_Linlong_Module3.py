@@ -15,5 +15,5 @@ weatherfile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Input\predict_model_2
 cityLocFile = "C:\Users\lwuag\Desktop\GitHub-Project\CVXTeam\Data\CityData.csv"
 
 #Score = obtainScore(submitfile, weatherfile,cityLocFile)
-plotweather(submitfile, weatherfile,cityLocFile)
+#plotweather(submitfile, weatherfile,cityLocFile)
 obtainScore(submitfile, weatherfile,cityLocFile)
