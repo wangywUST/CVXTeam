@@ -42,7 +42,7 @@ def explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,
             # whenever wind over 15, explode
             if(windGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])] >= threshold_wind or\
                rainGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])] >= threshold_rain):
-                print("dead on hour: " +str(j+3)+ ", minute: " +str((30 - seg[j])*2 + i*2) + ", wind: "+ \
+                print("dead on hour: " +str(j+3)+ ", minute: " +str((30 - seg[j])*2 + i*2 if j != min(len(seg),hourNum) -1 else 2*i) + ", wind: "+ \
                     str(windGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])]) \
                     +", rain: " + str(rainGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])]))
                 flag = True
