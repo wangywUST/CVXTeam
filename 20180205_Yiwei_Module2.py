@@ -1,24 +1,24 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 31 11:32:01 2018
+Created on Mon Feb 05 15:08:59 2018
 
-@author: ywanggp
+@author: lwuag
 """
+
 #%% Setting Paths  ------------------------------------------------------------------------------
 #Input Paths
-# trainPredFile = "/home/ust.hk/ywanggp/tsclient/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
-# trainTrueFile = "/home/ust.hk/ywanggp/tsclient/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
-# testPredFile = "/home/ust.hk/ywanggp/tsclient/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
+# trainPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTraining_201802.csv"
+# trainTrueFile = "C:\Users\lwuag\Desktop\NewData\In_situMeasurementforTraining_201802.csv"
+# testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
 cityLocFile = "Data/CityData.csv"
-testTrueFile = "/home/ust.hk/ywanggp/tsclient/ywanggp/Dropbox/Contest/contest/Input/predict_model_2.csv"
-
+testTrueFile = "C:/Users/wangyw/Dropbox/Contest/contest/Input/predict_model_2.csv"
+#testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
 submitPath = "Data/submitResult_Yiwei_20180205.csv"
 
 #Function Paths
-LichengFunction = "Functions/Yiwei"
-LichengFunctionSub1 = "Functions/Yiwei/dijkstar"
+LinlongFunction = "Functions/Yiwei"
+LinlongFunctionSub1 = "Functions/Yiwei/dijkstar"
 
 #%% Setting Global Parameters ---------------------------------------------------------------------
 #Map Size
@@ -30,27 +30,21 @@ maxDay = 5
 maxCity = 10
 hourNum = 18
 
-#Gap minutes of different starting points
-divStart = 10
-
 #The threshold of the dangerous wind speed
 thre_wind = 0.5
 
 #Executing Ranges
-dayList = list(range(1, maxDay + 1)) #The days that would be dealt with (1 - 5)
-cityList = list(range(1, maxCity + 1)) #The citys that would be dealt with (1 - 10)
+dayList = [1,2,3,4,5] #The days that would be dealt with (1 - 5)
+cityList = [2,9] #The citys that would be dealt with (1 - 10)
 
 #One map's data size
 chunksize = xsize * ysize
 
-#time slot which can be chosen
-timeSlot = list(range(hourNum * (60 / divStart) + 1))
-
 
 #%% Defining Functions -----------------------------------------------------------------------------
 import sys
-sys.path.append("Functions/Yiwei")
-sys.path.append("Functions/Yiwei/dijkstar")
+sys.path.append(LinlongFunction)
+sys.path.append(LinlongFunctionSub1)
 
 from jumpDays import *
 import numpy as np
@@ -83,7 +77,7 @@ def get_Wind_Rain_Graph(dayIndex):
     return feasible
 
 from submitFormat import *
-from Path_generator import *
+from Path_generator_new import *
 #Add new Paths of one city, one day to the existing block.
 #Output: Return extended part.
 #Input: existing block.
@@ -94,7 +88,9 @@ def extendBlock(dayNum, windGraph, startHours, startMins):
     for cityNum in cityList:
         windGraph = FullWindGraph[startHours[cityNum - 1]:, :, :].copy()
         height = 18 - windGraph.shape[0]
-        Pathinfo = Path_generator_new(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum], thre_wind, height)
+        thre_wind = 0.5
+        Pathinfo = Path_generator_new(windGraph, xCity[0], yCity[0], xCity[cityNum], yCity[cityNum],\
+                                      startHours[cityNum - 1], startMins[cityNum - 1],  thre_wind, height)
         (des_n_city, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo, startHours[cityNum - 1], startMins[cityNum - 1])
         extendedPart += list(np.concatenate((des_n_day, des_n_city, Pathinfo), axis = 1))
     return extendedPart
