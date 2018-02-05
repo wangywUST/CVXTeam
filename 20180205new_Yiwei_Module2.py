@@ -10,15 +10,15 @@ Created on Mon Feb 05 15:08:59 2018
 # trainPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTraining_201802.csv"
 # trainTrueFile = "C:\Users\lwuag\Desktop\NewData\In_situMeasurementforTraining_201802.csv"
 # testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
-cityLocFile = "Data/CityData.csv"
-testTrueFile = "C:/Users/wangyw/Dropbox/Contest/contest/Input/predict_model_2.csv"
+# cityLocFile = "Data\CityData.csv"
+# testTrueFile = "C:\Users\lwuag\Desktop\NewData\predict_model_2.csv"
 #testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
-submitPath = "Data/submitResult_Yiwei_20180205.csv"
+submitPath = "Data/submitResult_Linlong_20180204.csv"
 
 #Function Paths
-LinlongFunction = "Functions/Yiwei"
-LinlongFunctionSub1 = "Functions/Yiwei/dijkstar"
+LinlongFunction = "Functions/Linlong"
+LinlongFunctionSub1 = "Functions/Linlong/dijkstar"
 
 #%% Setting Global Parameters ---------------------------------------------------------------------
 #Map Size
