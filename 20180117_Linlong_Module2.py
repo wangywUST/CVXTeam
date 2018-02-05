@@ -27,7 +27,7 @@ trainTrueFile = "C:\Users\lwuag\Desktop\TianchiData\In_situMeasurementforTrainin
 testPredFile = "C:\Users\lwuag\Desktop\TianchiData\ForecastDataforTesting_201712.csv"
 cityLocFile = "Data\CityData.csv"
 testTrueFile = "C:\Users\lwuag\Desktop\TianchiData\predict_model_2.csv"
-submitPath = "Data\submitResult_Linlong_20180119_segment0.csv"
+submitPath = "Data\submitResult_Linlong_20180129_segment0.csv"
 
 
 cityLoc = pd.read_csv(cityLocFile)
@@ -42,17 +42,21 @@ hourNum = 18
 chunksize = xsize * ysize
 
 block = []
-windGraph = np.zeros((hourNum,xsize,ysize))
+windGraph = np.zeros((hourNum, xsize, ysize))
 #fullScore = []
 for dayNum in [3]: #range(1, maxDay + 1):
     print(dayNum)
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
+    
+    windGra = df.get_chunk(chunksize)["wind"]
     for _ in range(18):
-        windGra = df.get_chunk(chunksize)["wind"]
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
+#    for _ in range(18):
+#        windGra = df.get_chunk(chunksize)["wind"]
+#        windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
 #    print(windGraph[0, xCity[0], yCity[0]])
-    windGraph[0, xCity[0], yCity[0]] = min(windGraph[0, xCity[0], yCity[0]], 14.9)    
+    windGraph[0, xCity[0], yCity[0]] = min(windGraph[0, xCity[0], yCity[0]], 14.9)        
     star_point = xCity[0] * ysize + yCity[0]
     for cityNum in range(1, maxCity + 1):
         print(cityNum)
@@ -68,5 +72,5 @@ for dayNum in [3]: #range(1, maxDay + 1):
 
 block = np.asarray(block)
 #%%
-#df_b = pd.DataFrame(block)
-#df_b.to_csv(submitPath, header=None,index = False)
+df_b = pd.DataFrame(block)
+df_b.to_csv(submitPath, header=None,index = False)

@@ -13,8 +13,8 @@ sys.path.append("Functions/Linlong/dijkstar")
 from Module3_func import *
 
 
-submitfile = "C:\Users\lwuag\Desktop\GitHub-Project\CVXTeam\Data\submitResult_Linlong_20180119_segment0.csv"
-weatherfile = "C:\Users\lwuag\Desktop\TianchiData\predict_model_4.csv"
+submitfile = "C:\Users\lwuag\Desktop\GitHub-Project\CVXTeam\Data\submitResult_Linlong_20180129_segment0.csv"
+weatherfile = "C:\Users\lwuag\Desktop\TianchiData\predict_model_2.csv"
 cityLocFile = "C:\Users\lwuag\Desktop\TianchiData\CityData.csv"
 
 #Score = obtainScore(submitfile, weatherfile,cityLocFile)
