@@ -30,21 +30,27 @@ maxDay = 5
 maxCity = 10
 hourNum = 18
 
+#Gap minutes of different starting points
+divStart = 10
+
 #The threshold of the dangerous wind speed
 thre_wind = 0.5
 
 #Executing Ranges
-dayList = [1,2,3,4,5] #The days that would be dealt with (1 - 5)
-cityList = [2,9] #The citys that would be dealt with (1 - 10)
+dayList = list(range(1, maxDay + 1)) #The days that would be dealt with (1 - 5)
+cityList = list(range(1, maxCity + 1)) #The citys that would be dealt with (1 - 10)
 
 #One map's data size
 chunksize = xsize * ysize
 
+#time slot which can be chosen
+timeSlot = list(range(hourNum * (60 / divStart) + 1))
+
 
 #%% Defining Functions -----------------------------------------------------------------------------
 import sys
-sys.path.append(LinlongFunction)
-sys.path.append(LinlongFunctionSub1)
+sys.path.append("Functions/Yiwei")
+sys.path.append("Functions/Yiwei/dijkstar")
 
 from jumpDays import *
 import numpy as np
@@ -77,7 +83,7 @@ def get_Wind_Rain_Graph(dayIndex):
     return feasible
 
 from submitFormat import *
-from Path_generator_new import *
+from Path_generator import *
 #Add new Paths of one city, one day to the existing block.
 #Output: Return extended part.
 #Input: existing block.
