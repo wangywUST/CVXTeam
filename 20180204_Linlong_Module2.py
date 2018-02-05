@@ -11,7 +11,11 @@ Created on Mon Feb 05 15:08:59 2018
 #trainTrueFile = "C:\Users\lwuag\Desktop\NewData\In_situMeasurementforTraining_201802.csv"
 #testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
 cityLocFile = "Data\CityData.csv"
+<<<<<<< HEAD
 testTrueFile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Input\predict_model_2.csv"
+=======
+testTrueFile = "C:\documents\Dropbox\With Licheng\contest\Data\predict_model_2.csv"
+>>>>>>> d486bcbc08de56622149a938f4b296bacf5e0623
 #testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
 submitPath = "Data/submitResult_Linlong_20180204.csv"
@@ -44,7 +48,7 @@ cityList = list(range(1, maxCity + 1)) #The citys that would be dealt with (1 - 
 chunksize = xsize * ysize
 
 #time slot which can be chosen
-timeSlot = list(range(hourNum * (60 / divStart) + 1))
+timeSlot = list(range(hourNum * (60 // divStart) + 1))
 
 
 #%% Defining Functions -----------------------------------------------------------------------------
@@ -89,7 +93,6 @@ from Path_generator_new import *
 #Input: existing block.
 def extendBlock(dayNum, windGraph, startHours, startMins):
     FullWindGraph = windGraph.copy()
-    star_point = xCity[0] * ysize + yCity[0]
     extendedPart = []
     for cityNum in cityList:
         windGraph = FullWindGraph[startHours[cityNum - 1]:, :, :].copy()
