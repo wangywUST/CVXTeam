@@ -19,10 +19,12 @@ def get_Wind_Rain_Graph(weatherfile,dayNum,hourNum = 18,xsize = 548,ysize = 421)
         rainGraph[_,:,:] = wind_rain_Gra["rainfall"].values.reshape(xsize,ysize).copy()
     return windGraph,rainGraph
 
-def partition(Len,segsize=30):
+def partition(Len,initial):
     # seg: int, segsize: int,
     # return: 1d list
-    seg = []
+    initial_int = map(int, initial.split(":"))
+    seg = [0]*(initial_int[0]-3) + [30 - initial_int[1]/2]
+    Len -= (30 - initial_int[1]/2)
     while(Len>=30):
         seg += [30]
         Len -= 30
@@ -30,23 +32,23 @@ def partition(Len,segsize=30):
         seg += [Len]
     return seg
 
-def getpathpiece(pathfile,city,dayNum):
-    return pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["x","y"]].reset_index(drop = True)
+def getpathtmp(pathfile,city,dayNum):
+    return pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["Time","x","y"]].reset_index(drop = True)
 
 def explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,seg):
     flag = False
     for j in range(len(seg)): 
         for i in range(seg[j]):
             # whenever wind over 15, explode
-            if(windGraph[j,int(pathpiece["x"][j*30+i]), int(pathpiece["y"][j*30+i])] >= threshold_wind or\
-               rainGraph[j,int(pathpiece["x"][j*30+i]), int(pathpiece["y"][j*30+i])] >= threshold_rain):
-                print("dead on hour: " +str(j+3)+ ", minute: " +str(i*2) + ", wind: "+ \
-                    str(windGraph[j,int(pathpiece["x"][j*30+i]), int(pathpiece["y"][j*30+i])]))
+            if(windGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])] >= threshold_wind or\
+               rainGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])] >= threshold_rain):
+                print("dead on hour: " +str(j+3)+ ", minute: " +str((30 - seg[j])*2 + i*2) + ", wind: "+ \
+                    str(windGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])]) \
+                    +", rain: " + str(rainGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])]))
                 flag = True
     # not arriving destination, explode  
-    j = len(seg)-1
-    i = seg[j] - 1
-    if pathpiece["x"][j*30+i]!= xCity[city] or pathpiece["y"][j*30+i] != yCity[city]:
+    if pathpiece["x"].values[-1]!= xCity[city] or pathpiece["y"].values[-1] != yCity[city]:
+        print "Not ariving in destination!"
         flag = True
     return flag
 
@@ -62,12 +64,13 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
     for dayNum in range(1,maxDay+1):
         windGraph,rainGraph = get_Wind_Rain_Graph(weatherfile,dayNum)
         for city in range(1,maxCity+1):
-            pathpiece = getpathpiece(pathfile,city,dayNum)
-            Len = pathpiece.shape[0]
+            pathtmp = getpathtmp(pathfile,city,dayNum)
+            Len = pathtmp.shape[0]
             if Len == 0:
                 Score += []
             else:
-                flag = explode_or_not(windGraph,rainGraph,pathpiece,threshold,xCity,yCity,city,partition(Len))    
+                pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
+                flag = explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,partition(Len,initial))    
                 score = 1440 if flag else (pathpiece.shape[0] - 1) * 2                                     
                 print "dayNum: "+str(dayNum)+", city: "+str(city)+", score: "+str(score)
                 print "==========================="
@@ -126,10 +129,10 @@ def plotweather(submitfile, weatherfile,cityLocFile,hourNum = 18,xsize = 548,ysi
                 plot_func_ref(dayNum,windGraph,rainGraph,xCity,yCity,hourNum,X,Y)
                 break
             else:
-                pathpiece = getpathpiece(pathfile,city,dayNum)
+                pathpiece,initial = getpathtmp(pathfile,city,dayNum)
                 Len = pathpiece.shape[0]
                 if Len > 0: 
-                    plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,partition(Len),X,Y)
+                    plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,partition(Len,initial),X,Y)
                     
                     
                     
