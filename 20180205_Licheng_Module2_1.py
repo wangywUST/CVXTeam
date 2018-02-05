@@ -114,8 +114,8 @@ def writeToSubmitFile(block):
     df_b.to_csv(submitPath, header=None,index = False)
 
 def selectDiffStart(dayNum, timeSlot, cityNum, divStart):
-    selecSlots = timeSlot[0 : cityNum]
- #   selecSlots = starting_list[dayNum - 1]
+#    selecSlots = timeSlot[0 : cityNum]
+    selecSlots = starting_list[dayNum - 1]
     startHours = [x // int(60 / divStart) for x in selecSlots]
     startMin = [(x % 6) * 10 for x in selecSlots]
     return (selecSlots, startHours, startMin)
