@@ -35,9 +35,9 @@ def partition(Len,initial):
 def getpathtmp(pathfile,city,dayNum):
     return pathfile.loc[(pathfile["city"] == city) & (pathfile["Day"] == dayNum + 5)][["Time","x","y"]].reset_index(drop = True)
 
-def explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,seg):
+def explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,seg,hourNum):
     flag = False
-    for j in range(len(seg)): 
+    for j in range(min(len(seg),hourNum)): 
         for i in range(seg[j]):
             # whenever wind over 15, explode
             if(windGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])] >= threshold_wind or\
@@ -47,13 +47,13 @@ def explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,
                     +", rain: " + str(rainGraph[j,int(pathpiece["x"][sum(seg[:j])+i]), int(pathpiece["y"][sum(seg[:j])+i])]))
                 flag = True
     # not arriving destination, explode  
-    if pathpiece["x"].values[-1]!= xCity[city] or pathpiece["y"].values[-1] != yCity[city]:
+    if pathpiece["x"][sum(seg[:min(len(seg),hourNum)])-1]!= xCity[city] or pathpiece["y"][sum(seg[:min(len(seg),hourNum)])-1] != yCity[city]:
         print "Not ariving in destination!"
         flag = True
     return flag
 
 def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxDay = 5,maxCity = 10,\
-    threshold_wind = 15,threshold_rain = 4):
+    threshold_wind = 15,threshold_rain = 4,hourNum = 18):
     cityloc = pd.read_csv(cityLocFile)
     xCity = cityloc['xid']
     yCity = cityloc['yid']
@@ -70,7 +70,7 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
                 Score += []
             else:
                 pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
-                flag = explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,partition(Len,initial))    
+                flag = explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,partition(Len,initial),hourNum)    
                 score = 1440 if flag else (pathpiece.shape[0] - 1) * 2                                     
                 print "dayNum: "+str(dayNum)+", city: "+str(city)+", score: "+str(score)
                 print "==========================="
@@ -129,9 +129,10 @@ def plotweather(submitfile, weatherfile,cityLocFile,hourNum = 18,xsize = 548,ysi
                 plot_func_ref(dayNum,windGraph,rainGraph,xCity,yCity,hourNum,X,Y)
                 break
             else:
-                pathpiece,initial = getpathtmp(pathfile,city,dayNum)
-                Len = pathpiece.shape[0]
+                pathtmp = getpathtmp(pathfile,city,dayNum)
+                Len = pathtmp.shape[0]
                 if Len > 0: 
+                    pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
                     plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,partition(Len,initial),X,Y)
                     
                     
