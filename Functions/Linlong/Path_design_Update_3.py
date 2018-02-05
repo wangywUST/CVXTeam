@@ -94,26 +94,26 @@ def Path_design_Update_3(Data, star_point, true_end, end_point_replace, startHou
                         return PathInfo
                     else:
                         print("first stage: end is true end but cannot reach in one hour")
-                        return PathInfo[0:stp_nums] + Path_design_Update_1(Data, PathInfo[stp_nums], true_end, true_end, startHours, startMins, height+1, threshold)
+                        return PathInfo[0:stp_nums] + Path_design_Update_3(Data, PathInfo[stp_nums], true_end, true_end, startHours, startMins, height+1, threshold)
                 elif PathInfo[-1] == end_point_replace:
                     if len(PathInfo) <= stp_nums:
                         print('first stage: end is tempororary, reach the point')
-                        return PathInfo + [end_point_replace] * (stp_nums - len(PathInfo)) + Path_design_Update_1(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
+                        return PathInfo + [end_point_replace] * (stp_nums - len(PathInfo)) + Path_design_Update_3(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
                     else:
                         print('first stage: end is tempororary, cannot reach the point')
-                        return PathInfo[0:stp_nums] + Path_design_Update_1(Data, PathInfo[stp_nums], true_end, true_end, startHours, startMins, height+1, threshold)
+                        return PathInfo[0:stp_nums] + Path_design_Update_3(Data, PathInfo[stp_nums], true_end, true_end, startHours, startMins, height+1, threshold)
                 else:
                     print('first stage: end is neither ture nor temporary')
-                    return PathInfo[0:stp_nums] + Path_design_Update_1(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
+                    return PathInfo[0:stp_nums] + Path_design_Update_3(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
             else:
                 if len(PathInfo) < stp_nums:
                     print('first stage: arrived but end is deadzone, generate new and rerun for the same hour')
                     size_bound = 60
                     end_point_replace = check_End_as_Start(Data[height + 1, :, :], star_point, PathInfo[-1], col_num, size_bound, threshold)
-                    return Path_design_Update_1(Data, star_point, true_end, end_point_replace, startHours, startMins, height, threshold)
+                    return Path_design_Update_3(Data, star_point, true_end, end_point_replace, startHours, startMins, height, threshold)
                 else:
                     print('first stage: not arrived but end is deadzone, go along this way')
-                    return PathInfo[0:stp_nums] + Path_design_Update_1(Data, PathInfo[stp_nums], true_end, true_end, startHours, startMins, height+1, threshold)
+                    return PathInfo[0:stp_nums] + Path_design_Update_3(Data, PathInfo[stp_nums], true_end, true_end, startHours, startMins, height+1, threshold)
     else:       
         if height == high_num - 1:
             print('new stage: TimeOut')
@@ -126,24 +126,24 @@ def Path_design_Update_3(Data, star_point, true_end, end_point_replace, startHou
                         return PathInfo
                     else:
                         print("new stage: end is true end but cannot reach in one hour")
-                        return PathInfo[0:30] + Path_design_Update_1(Data, PathInfo[30], true_end, true_end, startHours, startMins, height+1, threshold)
+                        return PathInfo[0:30] + Path_design_Update_3(Data, PathInfo[30], true_end, true_end, startHours, startMins, height+1, threshold)
                 elif PathInfo[-1] == end_point_replace:
                     if len(PathInfo) <= 30:
                         print('new stage: end is tempororary, reach the point')
-                        return PathInfo + [end_point_replace] * (30 - len(PathInfo)) + Path_design_Update_1(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
+                        return PathInfo + [end_point_replace] * (30 - len(PathInfo)) + Path_design_Update_3(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
                     else:
                         print('new stage: end is tempororary, cannot reach the point')
-                        return PathInfo[0:30] + Path_design_Update_1(Data, PathInfo[30], true_end, true_end, startHours, startMins, height+1, threshold)
+                        return PathInfo[0:30] + Path_design_Update_3(Data, PathInfo[30], true_end, true_end, startHours, startMins, height+1, threshold)
                 else:
                     print('new stage: arrived but end is deadzone, generate new and rerun for the same hour')
-                    return PathInfo[0:30] + Path_design_Update_1(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
+                    return PathInfo[0:30] + Path_design_Update_3(Data, PathInfo[-1], true_end, true_end, startHours, startMins, height + 1, threshold)
             else:
                 if len(PathInfo) < 30:
                     print('new stage: arrived but end is deadzone, generate new and rerun for the same hour')
                     size_bound = 60
                     end_point_replace = check_End_as_Start(Data[height + 1, :, :], star_point, PathInfo[-1], col_num, size_bound, threshold)
-                    return Path_design_Update_1(Data, star_point, true_end, end_point_replace, startHours, startMins, height, threshold)
+                    return Path_design_Update_3(Data, star_point, true_end, end_point_replace, startHours, startMins, height, threshold)
                 else:
                     print('new stage: not arrived but end is deadzone, go along this way')
-                    return PathInfo[0:30] + Path_design_Update_1(Data, PathInfo[30], true_end, true_end, startHours, startMins, height+1, threshold)
+                    return PathInfo[0:30] + Path_design_Update_3(Data, PathInfo[30], true_end, true_end, startHours, startMins, height+1, threshold)
 
