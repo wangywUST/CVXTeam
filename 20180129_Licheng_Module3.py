@@ -17,5 +17,5 @@ weatherfile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
 cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
 #submitfile = None
 
-#Score = obtainScore(submitfile, weatherfile,cityLocFile,threshold_wind = 15,threshold_rain = 4)
-plotweather(submitfile, weatherfile,cityLocFile)
+Score = obtainScore(submitfile, weatherfile,cityLocFile,threshold_wind = 15,threshold_rain = 4)
+#plotweather(submitfile, weatherfile,cityLocFile)
