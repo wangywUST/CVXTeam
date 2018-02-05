@@ -48,7 +48,7 @@ def explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,
                 flag = True
     # not arriving destination, explode  
     if pathpiece["x"][sum(seg[:min(len(seg),hourNum)])-1]!= xCity[city] or pathpiece["y"][sum(seg[:min(len(seg),hourNum)])-1] != yCity[city]:
-        print "Not ariving in destination!"
+        print("Not ariving in destination!")
         flag = True
     return flag
 
@@ -59,8 +59,8 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
     yCity = cityloc['yid']
     pathfile = pd.read_csv(submitfile,header = None, names = ["city","Day","Time","x","y"])
     Score = []
-    print "starting...."
-    print "\n"
+    print("starting....")
+    print("\n")
     for dayNum in range(1,maxDay+1):
         windGraph,rainGraph = get_Wind_Rain_Graph(weatherfile,dayNum)
         for city in range(1,maxCity+1):
@@ -72,14 +72,14 @@ def obtainScore(submitfile, weatherfile,cityLocFile,xsize = 548,ysize = 421,maxD
                 pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
                 flag = explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,partition(Len,initial),hourNum)    
                 score = 1440 if flag else (pathpiece.shape[0] - 1) * 2                                     
-                print "dayNum: "+str(dayNum)+", city: "+str(city)+", score: "+str(score)
-                print "==========================="
+                print("dayNum: "+str(dayNum)+", city: "+str(city)+", score: "+str(score))
+                print("===========================")
                 Score += [score]
     return Score  
 
 def plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,seg,X,Y):
     for j in range(min(len(seg),hourNum)):  
-        print "Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3) + ", City: " + str(city)
+        print("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3) + ", City: " + str(city))
         windGraph_j = windGraph[j, :, :].copy()
         rainGraph_j = rainGraph[j, :, :].copy()
         feasible_j = np.zeros(windGraph_j.shape)
@@ -95,11 +95,11 @@ def plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,seg,
         plt.savefig('Figure/Licheng/' + "Day_"+str(dayNum+5) + "_City_" + str(city) + "_Hour_"+ str(j + 3) \
              + '.png')
         plt.clf()
-        print "Done!"
+        print("Done!")
 
 def plot_func_ref(dayNum,windGraph,rainGraph,xCity,yCity,hourNum,X,Y):
     for j in range(hourNum):  
-        print "Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3)
+        print("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3))
         windGraph_j = windGraph[j, :, :].copy()
         rainGraph_j = rainGraph[j, :, :].copy()
         feasible_j = np.zeros(windGraph_j.shape)
@@ -111,7 +111,7 @@ def plot_func_ref(dayNum,windGraph,rainGraph,xCity,yCity,hourNum,X,Y):
         plt.title("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3))
         plt.savefig('Figure/Linlongnew/' +"Day_" + str(dayNum+5) + "_Hour_" + str(j + 3) + ".pdf")
         plt.clf()
-        print "Done!"
+        print("Done!")
 
 def plotweather(submitfile, weatherfile,cityLocFile,hourNum = 18,xsize = 548,ysize = 421,maxDay = 5,maxCity = 10,threshold = 15):
     cityloc = pd.read_csv(cityLocFile)
