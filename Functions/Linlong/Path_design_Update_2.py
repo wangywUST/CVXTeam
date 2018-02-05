@@ -116,7 +116,7 @@ def Path_design_Update_2(Data, path_temp, star_point, true_end, end_point_replac
                     path_temp = path_temp + PathInfo[0:30]
                     return Path_design_Update_2(Data, path_temp, PathInfo[30], true_end, true_end, height+1, threshold)
             else:
-                print('stand stil')
+                print('stand still')
                 path_temp = path_temp + PathInfo[0:30]
                 return Path_design_Update_2(Data, path_temp, PathInfo[-1], true_end, true_end, height + 1, threshold)
         else:
