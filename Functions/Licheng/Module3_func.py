@@ -109,7 +109,7 @@ def plot_func_ref(dayNum,windGraph,rainGraph,xCity,yCity,hourNum,X,Y):
         CSF = plt.contourf(X, Y, feasible_j, 8, alpha=.95, cmap=plt.cm.Greys)
         plt.colorbar(CSF, shrink=0.8, extend='both')
         plt.title("Day: "+str(dayNum+5) + ", Hour: "+ str(j + 3))
-        plt.savefig('Figure/Licheng/' +"Day_" + str(dayNum+5) + "_Hour_" + str(j + 3) + ".png")
+        plt.savefig('Figure/Licheng/' +"Day_" + str(dayNum+5) + "_Hour_" + str(j + 3) + ".pdf")
         plt.clf()
         print "Done!"
 

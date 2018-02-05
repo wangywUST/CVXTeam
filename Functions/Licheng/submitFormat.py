@@ -23,4 +23,4 @@ def submitFormat(dayNum, cityNum, pathList):
             string_sub += str(time[1]) 
         string += [string_sub] 
     string = np.asarray(string).reshape(-1,1)
-    return (string.copy(), des_n_day.copy())
+    return string.copy(), des_n_day.copy()

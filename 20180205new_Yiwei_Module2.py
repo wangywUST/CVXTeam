@@ -12,9 +12,9 @@ Created on Mon Feb 05 15:08:59 2018
 # testPredFile = "C:\Users\lwuag\Desktop\NewData\ForecastDataforTesting_201802.csv"
 cityLocFile = "Data/CityData.csv"
 testTrueFile = "C:/Users/wangyw/Dropbox/Contest/contest/Input/predict_model_2.csv"
-#testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
+# testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 #Output Paths
-submitPath = "Data/submitResult_Yiwei_20180205.csv"
+submitPath = "Data/submitResult_Yiwei_20180204.csv"
 
 #Function Paths
 LinlongFunction = "Functions/Yiwei"
