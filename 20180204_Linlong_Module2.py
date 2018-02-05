@@ -37,7 +37,7 @@ divStart = 10
 thre_wind = 0.5
 
 #Executing Ranges
-dayList = list(range(1, maxDay + 1)) #The days that would be dealt with (1 - 5)
+dayList = list(range(2, maxDay + 1)) #The days that would be dealt with (1 - 5)
 cityList = list(range(1, maxCity + 1)) #The citys that would be dealt with (1 - 10)
 
 #One map's data size
@@ -46,6 +46,11 @@ chunksize = xsize * ysize
 #time slot which can be chosen
 timeSlot = list(range(hourNum * (60 // divStart) + 1))
 
+#starting_list = [[43,6,46,44,42,1,2,0,7,45],
+#                 [25,3,28,26,24,1,2,0,4,27],
+#                 [0,55,2,36,54,31,32,30,3,1],
+#                 [4,2,0,50,49,51,52,48,3,1],
+#                 [6,8,0,5,4,2,3,1,9,7]]
 
 #%% Defining Functions -----------------------------------------------------------------------------
 import sys
@@ -109,6 +114,7 @@ def writeToSubmitFile(block):
 
 def selectDiffStart(timeSlot, cityNum, divStart):
     selecSlots = timeSlot[0 : cityNum]
+#    selecSlots = starting_list
     startHours = [x // int(60 / divStart) for x in selecSlots]
     startMin = [(x % 6) * 10 for x in selecSlots]
     return (selecSlots, startHours, startMin)
