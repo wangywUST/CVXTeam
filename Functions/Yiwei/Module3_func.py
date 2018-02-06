@@ -135,12 +135,13 @@ def plotweather(submitfile, weatherfile,cityLocFile,hourNum = 18,xsize = 548,ysi
                     pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
                     plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,partition(Len,initial),X,Y)
                     
-def inferCombination(gottenScore, submitfile, maxDay = 5, maxCity = 6):
+def inferCombination(gottenScore, submitfile, maxDay = 5, maxCity = 10):
     pathfile = pd.read_csv(submitfile,header = None, names = ["city","Day","Time","x","y"])
     print "starting...."
     print "\n"
     dayList = []
     cityList = []
+    Score = []
     for dayNum in range(1,maxDay+1):
         for city in range(1,maxCity+1):
             pathtmp = getpathtmp(pathfile,city,dayNum)
@@ -153,17 +154,23 @@ def inferCombination(gottenScore, submitfile, maxDay = 5, maxCity = 6):
                 pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
                 flag = False
                 score = 1440 if flag else (pathpiece.shape[0] - 1) * 2                                     
-                print "dayNum: "+str(dayNum)+", city: "+str(city)+", score: "+str(score)
-                print "==========================="
                 Score += [score]
     transGottenScore = len(Score) * 1440 - (72000 - gottenScore)
     counter = 2 ** len(Score) - 1
+    successCountBin = []
     while counter >= 0:
         countBin = bin(counter)
         countBin = list(countBin[2:])
         countBin = list(map(int, countBin))
-        combScore = sum(i[0] * i[1] for i in zip(countBin, Score))
+        complementSum = sum(list([(1 - x) * 1440 for x in countBin]))
+        combScore = sum(i[0] * i[1] for i in zip(countBin, Score)) + complementSum
         if combScore == transGottenScore:
-            return (dayList, cityList, counter)
+            for countI in range(len(countBin)):
+                if countBin[countI] == 0:
+                    print "Fail, ", "City ", dayList[countI], " Day ", cityList[countI], " City", " Successful Score: ", Score[countI]
+            print "Another Case:"
+            print "\n"
         counter = counter - 1
+    return (dayList, cityList, countBin)
+
         
