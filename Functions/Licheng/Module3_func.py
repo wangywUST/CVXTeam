@@ -135,9 +135,24 @@ def plotweather(submitfile, weatherfile,cityLocFile,hourNum = 18,xsize = 548,ysi
                     pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
                     plot_func(dayNum,city,pathpiece,windGraph,rainGraph,xCity,yCity,hourNum,partition(Len,initial),X,Y)
                     
+
+
                     
-                    
-                    
+def fit_true_score(potential_scores,true_score):
+    scores = set()
+    for i in xrange(2 ** len(potential_scores)):
+        scores_tmp = []
+        for j in range(len(potential_scores)):
+            binary = bin(i)[2:]
+            binary = '0'*(len(potential_scores) - len(binary)) + binary
+            if binary[j] == "1":
+                scores_tmp += [potential_scores[j]]
+            else:
+                scores_tmp += [1440]
+        if sum(scores_tmp) == true_score:
+            scores.add(tuple(scores_tmp))
+    return list(scores)
+
                     
     
 
