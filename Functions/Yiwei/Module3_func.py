@@ -151,13 +151,19 @@ def inferCombination(gottenScore, submitfile, maxDay = 5, maxCity = 6):
                 dayList += [dayNum]
                 cityList += [city]
                 pathpiece,initial = pathtmp[["x","y"]],pathtmp["Time"][0]
-                flag = explode_or_not(windGraph,rainGraph,pathpiece,threshold_wind, threshold_rain,xCity,yCity,city,partition(Len,initial),hourNum)    
+                flag = False
                 score = 1440 if flag else (pathpiece.shape[0] - 1) * 2                                     
                 print "dayNum: "+str(dayNum)+", city: "+str(city)+", score: "+str(score)
                 print "==========================="
                 Score += [score]
-    counter = 1023
-    countBin = bin(1023)
-    countBin = countBin[2:]
-    for a in countBin
+    transGottenScore = len(Score) * 1440 - (72000 - gottenScore)
+    counter = 2 ** len(Score) - 1
+    while counter >= 0:
+        countBin = bin(counter)
+        countBin = list(countBin[2:])
+        countBin = list(map(int, countBin))
+        combScore = sum(i[0] * i[1] for i in zip(countBin, Score))
+        if combScore == transGottenScore:
+            return (dayList, cityList, counter)
+        counter = counter - 1
         
