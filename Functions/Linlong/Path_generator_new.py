@@ -17,12 +17,12 @@ def Path_generator_new(windGraph, xCity_begin, yCity_begin, xCity_end, yCity_end
     star_point = xCity_begin * ysize + yCity_begin
     end_point = xCity_end * ysize + yCity_end
     Data = Data_convert(windGraph, thre_wind, MultiLay=False, Convert = False)
-    Pathinfo = Path_design_Update_3(Data, star_point, end_point, end_point, startHours, startMins, height, thre_wind)
-#    try:
-#        Pathinfo = Path_design_Update_3(Data, star_point, end_point, end_point, startHours, startMins, height, thre_wind)
-#    except:
-#        print(11111111)
-#        Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
+#    Pathinfo = Path_design_Update_3(Data, star_point, end_point, end_point, startHours, startMins, height, thre_wind)
+    try:
+        Pathinfo = Path_design_Update_3(Data, star_point, end_point, end_point, startHours, startMins, height, thre_wind)
+    except:
+        print(11111111)
+        Pathinfo = Remedy_4_no_way(Data, star_point, end_point)
         
 #    end_pos = Pathinfo[-1]
 #    end_x, end_y = index_2_xy(end_pos, Data.shape[2])
