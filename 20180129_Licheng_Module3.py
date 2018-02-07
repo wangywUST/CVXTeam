@@ -22,6 +22,6 @@ Score = obtainScore(submitfile, weatherfile,cityLocFile,threshold_wind = 15,thre
 #import time 
 #t = time.time()
 #s = [x for x in Score if x != 1440]
-#m = fit_true_score(s,31994 - 12*1440)
+#m = fit_true_score(Score,21384)
 #print m
 #print time.time() - t
