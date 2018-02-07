@@ -14,7 +14,7 @@ from Remedy_4_no_way import *
 from check_start_point import *
 from check_End_as_Start import *
 
-def Path_design_Update_3(Data, star_point, true_end, end_point_replace, startHours, startMins, height, threshold):
+def  Path_design_Update_3(Data, star_point, true_end, end_point_replace, startHours, startMins, height, threshold):
     high_num = int(Data.shape[0])
     row_num = int(Data.shape[1])
     col_num = int(Data.shape[2])      

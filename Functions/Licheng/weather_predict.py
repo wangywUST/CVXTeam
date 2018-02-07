@@ -42,10 +42,12 @@ def model2(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
         y_pred1 = np.median(y_pred, axis = 1).ravel()
         y_pred2 = np.mean(y_pred, axis = 1).ravel()
         y_pred_wind = np.max([y_pred1,y_pred2],axis = 0)
+
         y_pred = X_test["rainfall"].values.reshape(xsize * ysize, 10)
         y_pred1 = np.median(y_pred, axis = 1).ravel()
         y_pred2 = np.mean(y_pred, axis = 1).ravel()
         y_pred_rainfall = np.max([y_pred1,y_pred2],axis = 0)
+
         Data = df_train_true.get_chunk(chunksize / 10).reset_index(drop=True)
         Data.drop(["wind","rainfall"],axis = 1,inplace = True)
         wind = pd.DataFrame(y_pred_wind,columns = ["wind"])
@@ -173,97 +175,112 @@ def model5(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
         y_pred = X_test["wind"].values.reshape(xsize * ysize, 10)
         y_pred1 = np.median(y_pred, axis = 1).ravel()
         y_pred2 = np.mean(y_pred, axis = 1).ravel()
-        y_pred = np.max([y_pred1,y_pred2],axis = 0).reshape(-1,1)
+        y_pred_wind = np.max([y_pred1,y_pred2],axis = 0).reshape(-1,1)
+    
+        y_pred = X_test["rainfall"].values.reshape(xsize * ysize, 10)
+        y_pred1 = np.median(y_pred, axis = 1).ravel()
+        y_pred2 = np.mean(y_pred, axis = 1).ravel()
+        y_pred_rainfall = np.max([y_pred1,y_pred2],axis = 0).reshape(-1,1)
+    
         Data = df_train_true.get_chunk(chunksize / 10).reset_index(drop=True)
-        Data = Data.drop(["wind"],axis = 1).values
-        X_test = np.concatenate((Data,y_pred),axis = 1)
+        Data = Data.drop(["wind","rainfall"],axis = 1).values
+        X_test = np.concatenate((Data,y_pred_wind,y_pred_rainfall),axis = 1)
         try:
             ind
         except:
             ind = (80 >= X_test[:,0]) | (X_test[:,0] > 440) | \
             (200 >= X_test[:,1]) | (X_test[:,1] > 380)
-            ind = ind | (3> X_test[:,3]) | (X_test[:,3] > 8)
+    
         X_test_mini = X_test[ind]
         print "block "+str(i)+" loaded"
         X_test_blk += [X_test_mini]
-    predict1 = np.asarray(X_test_blk).reshape(-1,5)
+    predict = np.asarray(X_test_blk).reshape(-1,6)
     del X_test_blk,ind
-
+    
     df_train = pd.read_csv(trainPredFile, chunksize = chunksize)
     df_test = pd.read_csv(testPredFile, chunksize = chunksize)
     df_train_true = pd.read_csv(trainTrueFile, chunksize = chunksize / 10)
     
-    X_blk,y_blk = [],[]
+    X_blk,y_wind_blk,y_rainfall_blk = [],[],[]
     X_t_blk = []
     Data_blk = []
     for i in range(90): 
-        wind = df_train.get_chunk(chunksize)
-        wind = wind["wind"].values.reshape(xsize * ysize, 10)
+        wind_rain = df_train.get_chunk(chunksize)
+        wind = wind_rain["wind"].values.reshape(xsize * ysize, 10)
+        rainfall = wind_rain["rainfall"].values.reshape(xsize * ysize, 10)
         Data = df_train_true.get_chunk(chunksize / 10).reset_index(drop=True)
-        y_train = Data["wind"].values.reshape(-1,1)
-        Data = Data.drop(["wind"],axis = 1).values
-        X_train = np.concatenate((Data,wind),axis = 1)
+        y_train_wind = Data["wind"].values.reshape(-1,1)
+        y_train_rainfall = Data["rainfall"].values.reshape(-1,1)
+        Data = Data.drop(["wind","rainfall"],axis = 1).values
+        X_train = np.concatenate((Data,wind,rainfall),axis = 1)
         
-        wind = df_test.get_chunk(chunksize)
-        wind = wind["wind"].values.reshape(xsize * ysize, 10)
-        X_test = np.concatenate((Data,wind),axis = 1)
+        wind_rain = df_test.get_chunk(chunksize)
+        wind = wind_rain["wind"].values.reshape(xsize * ysize, 10)
+        rainfall = wind_rain["rainfall"].values.reshape(xsize * ysize, 10)
+        X_test = np.concatenate((Data,wind,rainfall),axis = 1)
         
         try:
             ind
         except:
             ind = (80 < X_train[:,0]) & (X_train[:,0] <= 440) & \
             (200 < X_train[:,1]) & (X_train[:,1] <= 380)
-            ind = ind & (3<= X_train[:,3]) & (X_train[:,3] <= 8)
             
-
-        X_train_mini,y_train_mini,X_test_mini,Data_mini = \
-        X_train[ind],y_train[ind],X_test[ind],Data[ind]
+    
+        X_train_mini,y_train_wind_mini,y_train_rainfall_mini,X_test_mini,Data_mini = \
+        X_train[ind],y_train_wind[ind],y_train_rainfall[ind],X_test[ind],Data[ind]
         print "block "+str(i)+" loaded"
         X_blk += [X_train_mini]
-        y_blk += [y_train_mini]
+        y_wind_blk += [y_train_wind_mini]
+        y_rainfall_blk += [y_train_rainfall_mini]
         X_t_blk += [X_test_mini]
         Data_blk += [Data_mini]
-    X_train,y_train,X_test,Data_test = np.asarray(X_blk).reshape(-1,14),np.asarray(y_blk).reshape(-1,1),\
-    np.asarray(X_t_blk).reshape(-1,14),np.asarray(Data_blk).reshape(-1,4)
-    del X_blk,y_blk,X_t_blk,Data_blk
+    X_train,y_train_wind,y_train_rainfall,X_test,Data_test = np.asarray(X_blk).reshape(-1,24),np.asarray(y_wind_blk).reshape(-1,1),\
+    np.asarray(y_rainfall_blk).reshape(-1,1),np.asarray(X_t_blk).reshape(-1,24),np.asarray(Data_blk).reshape(-1,4)
+    del X_blk,y_wind_blk,y_rainfall_blk,X_t_blk,Data_blk
     
-    
-    X_train[:,4:] = 1/(1+np.exp(-(X_train[:,4:]-15)))
+    X_train[:,4:14] = 1/(1+np.exp(-(X_train[:,4:14]-15))) 
+    X_train[:,14:] = 1/(1+np.exp(-(X_train[:,14:]-4))) 
     dist = (np.abs(X_train[:,0] - 142) + np.abs(X_train[:,1] - 328)).reshape(-1,1)
+    Ind = X_train[:,2]
     X_train = np.delete(X_train, [0,1,2], axis=1)
     X_train = np.concatenate((X_train[:,0].reshape(-1,1),dist,X_train[:,1:]),axis = 1)  
     del dist
-    y_train = 1/(1+np.exp(-(y_train-15)))
+    y_train_wind = 1/(1+np.exp(-(y_train_wind-15)))
+    y_train_rainfall = 1/(1+np.exp(-(y_train_rainfall-4)))
     
-    X_test[:,4:] = 1/(1+np.exp(-(X_test[:,4:]-15)))
+    X_test[:,4:14] = 1/(1+np.exp(-(X_test[:,4:14]-15)))
+    X_test[:,14:] = 1/(1+np.exp(-(X_test[:,14:]-4)))
     dist = (np.abs(X_test[:,0] - 142) + np.abs(X_test[:,1] - 328)).reshape(-1,1)
     X_test = np.delete(X_test, [0,1,2], axis=1)
     X_test = np.concatenate((X_test[:,0].reshape(-1,1),dist,X_test[:,1:]),axis = 1)  
     del dist
     
-        
-    xgbr = xgb.XGBRegressor(max_depth = 7,min_child_weight = 2,\
-                        gamma = 0,subsample = 0.8,colsample_bytree = 0.8,colsample_bylevel = 0.8,\
-                        scale_pos_weight = 1,learning_rate = 0.1, reg_alpha = 1e-5,\
-                        reg_lambda = 1,objective = 'reg:logistic',n_estimators = 100)
-    xgbr.fit(X_train,y_train)
-    del X_train,y_train
-    y_pred = xgbr.predict(X_test)
-    del X_test
     
+    xgbr = xgb.XGBRegressor()
     from sklearn.preprocessing import MinMaxScaler
     scalar = MinMaxScaler(feature_range = (1e-4,1-1e-4))
-    y_pred = (scalar.fit_transform(y_pred.reshape(-1,1))).ravel()
-    y_pred = (15 + np.log(y_pred/(1-y_pred))).reshape(-1,1)
-    predict2 = np.concatenate((Data_test,y_pred), axis = 1)
-    del Data_test,y_pred
-    predict = np.concatenate((predict1,predict2),axis = 0)
-    del predict1,predict2
+    for i in range(1,6):
+        ind = (Ind == i)
+        xgbr.fit(X_train[ind][:,:12],y_train_wind[ind])
+        y_pred_wind_ind = xgbr.predict(X_test[ind][:,:12])  
+        y_pred_wind_ind = (scalar.fit_transform(y_pred_wind_ind.reshape(-1,1))).ravel()
+        y_pred_wind_ind = (15 + np.log(y_pred_wind_ind/(1-y_pred_wind_ind))).reshape(-1,1)
+    
+        xgbr.fit(X_train[ind][:,range(2)+range(12,22)],y_train_rainfall[ind])
+        y_pred_rainfall_ind = xgbr.predict(X_test[ind][:,range(2)+range(12,22)])  
+        y_pred_rainfall_ind = (scalar.fit_transform(y_pred_rainfall_ind.reshape(-1,1))).ravel()
+        y_pred_rainfall_ind = (4 + np.log(y_pred_rainfall_ind/(1-y_pred_rainfall_ind))).reshape(-1,1)
+    
+        predict_ind = np.concatenate((Data_test[ind],y_pred_wind_ind,y_pred_rainfall_ind), axis = 1)
+        del y_pred_wind_ind,y_pred_rainfall_ind
+        predict = np.concatenate((predict,predict_ind),axis = 0)
+        del predict_ind  
+    
     predict = predict[predict[:,1].argsort(kind='mergesort')]
     predict = predict[predict[:,0].argsort(kind='mergesort')]
     predict = predict[predict[:,3].argsort(kind='mergesort')]
     predict = predict[predict[:,2].argsort(kind='mergesort')]
-    predict = pd.DataFrame(predict,columns = ["xid","yid","date_id","hour","wind"])
+    predict = pd.DataFrame(predict,columns = ["xid","yid","date_id","hour","wind","rainfall"])
     return predict
 
 #def model5(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421):
