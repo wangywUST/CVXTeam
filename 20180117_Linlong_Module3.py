@@ -10,10 +10,10 @@ sys.path.append("Functions/Linlong")
 from Module3_func import *
 
 
-submitfile = "C:\Users\lwuag\Desktop\GitHub-Project\CVXTeam\Data\submitResult_Linlong_20180206.csv"
+submitfile = "C:\Users\lwuag\Desktop\submitResult_Linlong_20180208_5_or.csv"
 weatherfile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Input\predict_model_2.csv"
 cityLocFile = "C:\Users\lwuag\Desktop\GitHub-Project\CVXTeam\Data\CityData.csv"
 
 #Score = obtainScore(submitfile, weatherfile,cityLocFile)
 #plotweather(submitfile, weatherfile,cityLocFile)
-obtainScore(submitfile, weatherfile,cityLocFile)
+score = obtainScore(submitfile, weatherfile, cityLocFile)
