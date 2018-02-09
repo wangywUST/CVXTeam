@@ -10,7 +10,7 @@ sys.path.append("Functions/Linlong")
 from Module3_func import *
 
 
-submitfile = "C:\Users\lwuag\Desktop\submitResult_Linlong_20180208_5_or.csv"
+submitfile = "C:\Users\lwuag\Desktop\submitResult_Linlong_20180208_2_strong.csv"
 weatherfile = "C:\Users\lwuag\Dropbox\With Licheng\contest\Input\predict_model_2.csv"
 cityLocFile = "C:\Users\lwuag\Desktop\GitHub-Project\CVXTeam\Data\CityData.csv"
 
