@@ -23,13 +23,16 @@ def partition(Len,initial):
     # seg: int, segsize: int,
     # return: 1d list
     initial_int = map(int, initial.split(":"))
-    seg = [0]*(initial_int[0]-3) + [30 - initial_int[1]/2]
-    Len -= (30 - initial_int[1]/2)
-    while(Len>=30):
-        seg += [30]
-        Len -= 30
-    if(Len > 0):
-        seg += [Len]
+    if 30 - initial_int[1]/2 <= Len:
+        seg = [0]*(initial_int[0]-3) + [30 - initial_int[1]/2]
+        Len -= (30 - initial_int[1]/2)
+        while(Len>=30):
+            seg += [30]
+            Len -= 30
+        if(Len > 0):
+            seg += [Len]
+    else:
+        seg = [0]*(initial_int[0]-3) + [Len]
     return seg
 
 def getpathtmp(pathfile,city,dayNum):
